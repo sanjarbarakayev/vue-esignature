@@ -6,7 +6,7 @@
  *
  * @example
  * ```typescript
- * import { ESignature } from 'vue-esignature'
+ * import { ESignature } from '@sanjarbarakayev/vue-esignature'
  *
  * const signer = new ESignature()
  *

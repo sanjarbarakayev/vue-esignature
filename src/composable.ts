@@ -7,7 +7,7 @@
  * @example
  * ```vue
  * <script setup lang="ts">
- * import { useESignature } from 'vue-esignature'
+ * import { useESignature } from '@sanjarbarakayev/vue-esignature'
  *
  * const { signer, isInstalled, install, listKeys, signData } = useESignature()
  *
