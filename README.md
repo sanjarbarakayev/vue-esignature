@@ -2,7 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/vue-esignature.svg)](https://www.npmjs.com/package/vue-esignature)
 [![npm downloads](https://img.shields.io/npm/dm/vue-esignature.svg)](https://www.npmjs.com/package/vue-esignature)
-[![license](https://img.shields.io/npm/l/vue-esignature.svg)](https://github.com/yourusername/vue-esignature/blob/main/LICENSE)
+[![license](https://img.shields.io/npm/l/vue-esignature.svg)](https://github.com/sanjarbarakayev/vue-esignature/blob/main/LICENSE)
 
 Vue 3 plugin for **E-IMZO** electronic digital signature (EDS) integration - Uzbekistan's national digital signature system.
 
@@ -333,7 +333,7 @@ Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md)
 
 ## License
 
-[MIT](LICENSE) © Your Name
+[MIT](LICENSE) © Sanjar Barakayev
 
 ## Related Links
 
