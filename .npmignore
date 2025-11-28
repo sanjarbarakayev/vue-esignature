@@ -1,0 +1,29 @@
+# Source files
+src/
+
+# Config files
+tsconfig.json
+vite.config.ts
+.gitignore
+.eslintrc.*
+.prettierrc*
+
+# Development
+node_modules/
+*.log
+.cache/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+coverage/
+__tests__/
+*.spec.ts
+*.test.ts
+
