@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2] - 2024-11-28
+
+### Fixed
+
+- Fixed "Функция не найдено" (Function not found) error when signing with USB token
+- Changed `signWithUSB()` and `signWithBAIK()` to use special keyId values ("idcard", "baikey") with `createPkcs7` instead of calling plugin-specific functions that may not exist in all E-IMZO versions
+
+### Added
+
+- Added `signWithCKC()` method for signing with CKC devices
+- Added `checkCKCDevice()` method in composable to check CKC device connection
+
 ## [1.0.0] - 2024-11-28
 
 ### Added

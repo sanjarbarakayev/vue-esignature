@@ -153,8 +153,10 @@ app.use(VueESignature, {
 | `signData(data, keyId?)` | `Promise<string>` | Sign with loaded key |
 | `signWithUSB(data)` | `Promise<string>` | Sign with USB token |
 | `signWithBAIK(data)` | `Promise<string>` | Sign with BAIK token |
+| `signWithCKC(data)` | `Promise<string>` | Sign with CKC device |
 | `checkUSBToken()` | `Promise<boolean>` | Check USB connection |
 | `checkBAIKToken()` | `Promise<boolean>` | Check BAIK connection |
+| `checkCKCDevice()` | `Promise<boolean>` | Check CKC connection |
 | `clearError()` | `void` | Clear error state |
 | `reset()` | `void` | Reset all state |
 
@@ -219,6 +221,17 @@ const { checkBAIKToken, signWithBAIK } = useESignature()
 const isPlugged = await checkBAIKToken()
 if (isPlugged) {
   const signature = await signWithBAIK(dataToSign)
+}
+```
+
+### CKC Device
+
+```typescript
+const { checkCKCDevice, signWithCKC } = useESignature()
+
+const isPlugged = await checkCKCDevice()
+if (isPlugged) {
+  const signature = await signWithCKC(dataToSign)
 }
 ```
 

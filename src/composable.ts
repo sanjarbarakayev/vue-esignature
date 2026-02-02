@@ -68,11 +68,17 @@ export interface UseESignatureReturn {
   /** Sign data with BAIK token */
   signWithBAIK: (data: string) => Promise<string>;
 
+  /** Sign data with CKC device */
+  signWithCKC: (data: string) => Promise<string>;
+
   /** Check if USB token is connected */
   checkUSBToken: () => Promise<boolean>;
 
   /** Check if BAIK token is connected */
   checkBAIKToken: () => Promise<boolean>;
+
+  /** Check if CKC device is connected */
+  checkCKCDevice: () => Promise<boolean>;
 
   /** Clear error state */
   clearError: () => void;
@@ -203,6 +209,20 @@ export const useESignature = (): UseESignatureReturn => {
     }
   };
 
+  const signWithCKC = async (data: string): Promise<string> => {
+    isLoading.value = true;
+    error.value = null;
+
+    try {
+      return await signer!.signWithCKC(data);
+    } catch (e) {
+      error.value = e instanceof Error ? e.message : String(e);
+      throw e;
+    } finally {
+      isLoading.value = false;
+    }
+  };
+
   const checkUSBToken = async (): Promise<boolean> => {
     try {
       return await signer!.isIDCardPlugged();
@@ -214,6 +234,14 @@ export const useESignature = (): UseESignatureReturn => {
   const checkBAIKToken = async (): Promise<boolean> => {
     try {
       return await signer!.isBAIKTokenPlugged();
+    } catch {
+      return false;
+    }
+  };
+
+  const checkCKCDevice = async (): Promise<boolean> => {
+    try {
+      return await signer!.isCKCPlugged();
     } catch {
       return false;
     }
@@ -246,8 +274,10 @@ export const useESignature = (): UseESignatureReturn => {
     signData,
     signWithUSB,
     signWithBAIK,
+    signWithCKC,
     checkUSBToken,
     checkBAIKToken,
+    checkCKCDevice,
     clearError,
     reset,
   };

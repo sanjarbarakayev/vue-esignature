@@ -23,13 +23,11 @@
  */
 
 import { EIMZOClient } from "./client";
-import { CAPIWS } from "./capiws";
 import type {
   Certificate,
   LoadKeyResult,
   SignPkcs7Result,
   VersionInfo,
-  CAPIWSSignResponse,
 } from "../types";
 import { ERROR_MESSAGES, EIMZO_VERSION } from "../types";
 
@@ -237,33 +235,26 @@ export class ESignature {
 
   /**
    * Sign data using USB token (ID card)
+   * Uses special keyId "idcard" with createPkcs7
    */
   async signWithUSB(content: string): Promise<string> {
+    // Use "idcard" as keyId - this is the correct approach per E-IMZO API
     return new Promise((resolve, reject) => {
-      const data64 = window.Base64.encode(content);
-
-      CAPIWS.callFunction<CAPIWSSignResponse>(
-        {
-          plugin: "idcard",
-          name: "sign_pkcs7",
-          arguments: [data64],
-        },
-        (_event: MessageEvent, data: CAPIWSSignResponse) => {
-          if (data.success && data.pkcs7_64) {
-            resolve(data.pkcs7_64);
-          } else {
-            if (
-              data.reason &&
-              data.reason.indexOf("BadPaddingException") !== -1
-            ) {
+      EIMZOClient.createPkcs7(
+        "idcard",
+        content,
+        null,
+        (pkcs7: string) => resolve(pkcs7),
+        (_e: unknown, r: string | null) => {
+          if (r) {
+            if (r.indexOf("BadPaddingException") !== -1) {
               reject(new Error(ERROR_MESSAGES.WRONG_PASSWORD));
             } else {
-              reject(new Error(data.reason || ERROR_MESSAGES.BROWSER_WS));
+              reject(new Error(r));
             }
+          } else {
+            reject(new Error(ERROR_MESSAGES.BROWSER_WS));
           }
-        },
-        () => {
-          reject(new Error(ERROR_MESSAGES.BROWSER_WS));
         }
       );
     });
@@ -271,33 +262,53 @@ export class ESignature {
 
   /**
    * Sign data using BAIK token
+   * Uses special keyId "baikey" with createPkcs7
    */
   async signWithBAIK(content: string): Promise<string> {
+    // Use "baikey" as keyId - this is the correct approach per E-IMZO API
     return new Promise((resolve, reject) => {
-      const data64 = window.Base64.encode(content);
-
-      CAPIWS.callFunction<CAPIWSSignResponse>(
-        {
-          plugin: "baikey",
-          name: "sign_pkcs7",
-          arguments: [data64],
-        },
-        (_event: MessageEvent, data: CAPIWSSignResponse) => {
-          if (data.success && data.pkcs7_64) {
-            resolve(data.pkcs7_64);
-          } else {
-            if (
-              data.reason &&
-              data.reason.indexOf("BadPaddingException") !== -1
-            ) {
+      EIMZOClient.createPkcs7(
+        "baikey",
+        content,
+        null,
+        (pkcs7: string) => resolve(pkcs7),
+        (_e: unknown, r: string | null) => {
+          if (r) {
+            if (r.indexOf("BadPaddingException") !== -1) {
               reject(new Error(ERROR_MESSAGES.WRONG_PASSWORD));
             } else {
-              reject(new Error(data.reason || ERROR_MESSAGES.BROWSER_WS));
+              reject(new Error(r));
             }
+          } else {
+            reject(new Error(ERROR_MESSAGES.BROWSER_WS));
           }
-        },
-        () => {
-          reject(new Error(ERROR_MESSAGES.BROWSER_WS));
+        }
+      );
+    });
+  }
+
+  /**
+   * Sign data using CKC device
+   * Uses special keyId "ckc" with createPkcs7
+   */
+  async signWithCKC(content: string): Promise<string> {
+    // Use "ckc" as keyId - this is the correct approach per E-IMZO API
+    return new Promise((resolve, reject) => {
+      EIMZOClient.createPkcs7(
+        "ckc",
+        content,
+        null,
+        (pkcs7: string) => resolve(pkcs7),
+        (_e: unknown, r: string | null) => {
+          if (r) {
+            if (r.indexOf("BadPaddingException") !== -1) {
+              reject(new Error(ERROR_MESSAGES.WRONG_PASSWORD));
+            } else {
+              reject(new Error(r));
+            }
+          } else {
+            reject(new Error(ERROR_MESSAGES.BROWSER_WS));
+          }
         }
       );
     });
