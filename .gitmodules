@@ -1,0 +1,3 @@
+[submodule "e-imzo-doc"]
+	path = e-imzo-doc
+	url = https://github.com/qo0p/e-imzo-doc.git
