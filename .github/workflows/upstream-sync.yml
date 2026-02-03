@@ -1,0 +1,149 @@
+name: Upstream Sync Check
+
+on:
+  # Run weekly on Monday at 9:00 UTC
+  schedule:
+    - cron: "0 9 * * 1"
+
+  # Allow manual trigger
+  workflow_dispatch:
+
+jobs:
+  check-upstream:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Get current submodule SHA
+        id: current
+        run: |
+          cd e-imzo-doc
+          CURRENT_SHA=$(git rev-parse HEAD)
+          echo "sha=$CURRENT_SHA" >> $GITHUB_OUTPUT
+          echo "Current submodule SHA: $CURRENT_SHA"
+
+      - name: Fetch upstream changes
+        id: upstream
+        run: |
+          cd e-imzo-doc
+          git fetch origin master
+          UPSTREAM_SHA=$(git rev-parse origin/master)
+          echo "sha=$UPSTREAM_SHA" >> $GITHUB_OUTPUT
+          echo "Upstream SHA: $UPSTREAM_SHA"
+
+      - name: Check for changes
+        id: check
+        run: |
+          if [ "${{ steps.current.outputs.sha }}" != "${{ steps.upstream.outputs.sha }}" ]; then
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "Changes detected!"
+          else
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "No changes detected."
+          fi
+
+      - name: Get change details
+        if: steps.check.outputs.has_changes == 'true'
+        id: details
+        run: |
+          cd e-imzo-doc
+
+          # Get commit log
+          COMMIT_LOG=$(git log --oneline ${{ steps.current.outputs.sha }}..${{ steps.upstream.outputs.sha }} | head -20)
+
+          # Get changed files
+          CHANGED_FILES=$(git diff --name-only ${{ steps.current.outputs.sha }}..${{ steps.upstream.outputs.sha }})
+
+          # URL encode for multiline output
+          echo "commit_log<<EOF" >> $GITHUB_OUTPUT
+          echo "$COMMIT_LOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          echo "changed_files<<EOF" >> $GITHUB_OUTPUT
+          echo "$CHANGED_FILES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Create issue for upstream changes
+        if: steps.check.outputs.has_changes == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const currentSha = '${{ steps.current.outputs.sha }}';
+            const upstreamSha = '${{ steps.upstream.outputs.sha }}';
+            const commitLog = `${{ steps.details.outputs.commit_log }}`;
+            const changedFiles = `${{ steps.details.outputs.changed_files }}`;
+
+            const issueTitle = `Upstream e-imzo-doc has new changes`;
+
+            const issueBody = `## Upstream Changes Detected
+
+            The upstream [e-imzo-doc](https://github.com/qo0p/e-imzo-doc) repository has new commits that need to be reviewed and potentially synced.
+
+            ### Current vs Upstream
+
+            | | SHA |
+            |---|---|
+            | Current | \`${currentSha.substring(0, 8)}\` |
+            | Upstream | \`${upstreamSha.substring(0, 8)}\` |
+
+            ### Compare Link
+
+            [View full diff on GitHub](https://github.com/qo0p/e-imzo-doc/compare/${currentSha}...${upstreamSha})
+
+            ### Recent Commits
+
+            \`\`\`
+            ${commitLog || 'No commit messages available'}
+            \`\`\`
+
+            ### Changed Files
+
+            \`\`\`
+            ${changedFiles || 'No files listed'}
+            \`\`\`
+
+            ### Action Checklist
+
+            - [ ] Review the upstream changes
+            - [ ] Identify which files affect vue-esignature (especially in \`example.uz/php/demo/eimzoidcard/js/\`)
+            - [ ] Update TypeScript conversions if necessary
+            - [ ] Update the submodule: \`git submodule update --remote e-imzo-doc\`
+            - [ ] Run tests: \`pnpm test:run\`
+            - [ ] Update UPSTREAM.md with new commit SHA
+            - [ ] Create PR with changes
+
+            ---
+            *This issue was automatically created by the upstream-sync workflow.*
+            `;
+
+            // Check for existing open issue
+            const existingIssues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'upstream-sync'
+            });
+
+            const hasExisting = existingIssues.data.some(issue =>
+              issue.title === issueTitle
+            );
+
+            if (!hasExisting) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: issueTitle,
+                body: issueBody,
+                labels: ['upstream-sync', 'maintenance']
+              });
+              console.log('Issue created successfully');
+            } else {
+              console.log('Issue already exists, skipping creation');
+            }
