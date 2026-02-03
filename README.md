@@ -18,7 +18,7 @@ Vue 3 plugin for **E-IMZO** electronic digital signature (EDS) integration - Uzb
 
 - **Vue 3.3+**
 - **E-IMZO Application** installed on user's computer
-  - Download from: <https://e-imzo.uz/main/downloads/>
+  - Download from: <https://e-imzo.soliq.uz/download/>
   - Minimum version: **3.37**
 
 ## Installation
@@ -351,5 +351,5 @@ Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md)
 ## Related Links
 
 - [E-IMZO Official Site](https://e-imzo.uz/)
-- [E-IMZO Downloads](https://e-imzo.uz/main/downloads/)
+- [E-IMZO Downloads](https://e-imzo.soliq.uz/download/)
 - [Installation Guide](https://esi.uz/index/help)

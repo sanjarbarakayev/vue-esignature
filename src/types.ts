@@ -395,7 +395,7 @@ export const ERROR_MESSAGES = {
   BROWSER_WS:
     "Браузер не поддерживает технологию WebSocket. Установите последнюю версию браузера.",
   UPDATE_APP:
-    'ВНИМАНИЕ !!! Установите новую версию приложения E-IMZO или Браузера E-IMZO.<br /><a href="https://e-imzo.uz/main/downloads/" role="button">Скачать ПО E-IMZO</a>',
+    'ВНИМАНИЕ !!! Установите новую версию приложения E-IMZO или Браузера E-IMZO.<br /><a href="https://e-imzo.soliq.uz/download/" role="button">Скачать ПО E-IMZO</a>',
   WRONG_PASSWORD: "Пароль неверный.",
   VERSION_UNDEFINED: "E-IMZO Version is undefined",
   INSTALL_NEW_VERSION: "Please install new version of E-IMZO",
@@ -408,6 +408,120 @@ export const EIMZO_VERSION = {
   MAJOR: 3,
   MINOR: 37,
 } as const;
+
+// ============================================================================
+// Global Type Augmentations
+// ============================================================================
+
+// ============================================================================
+// CRC32 Types
+// ============================================================================
+
+/**
+ * CRC32 calculator interface
+ */
+export interface ICRC32 {
+  calc(str: string): string;
+  calcHex(hexStr: string): string;
+}
+
+// ============================================================================
+// GOST Hash Types
+// ============================================================================
+
+/**
+ * GOST R 34.11-94 hash function interface
+ */
+export interface IGostHash {
+  gosthash(value: string): string;
+  gosthashHex(hex: string): string;
+  toHex(str: string): string;
+}
+
+/**
+ * Result of signed attribute hash calculation
+ */
+export interface SignedAttributeHashResult {
+  utcTime: string;
+  signedAttributesHash: string;
+  textHash: string;
+}
+
+/**
+ * GOST test vector
+ */
+export interface GostTestVector {
+  hash: string;
+  text: string;
+}
+
+// ============================================================================
+// E-IMZO Mobile Types
+// ============================================================================
+
+/**
+ * QRCode library interface for dependency injection
+ */
+export interface IQRCode {
+  makeCode(code: string): void;
+  clear?(): void;
+}
+
+/**
+ * QRCode constructor interface
+ */
+export interface IQRCodeConstructor {
+  new (
+    element: HTMLElement,
+    options?: { width?: number; height?: number }
+  ): IQRCode;
+}
+
+/**
+ * Configuration options for EIMZOMobile
+ */
+export interface EIMZOMobileOptions {
+  width?: number;
+  height?: number;
+}
+
+/**
+ * Result of QR code generation
+ */
+export interface QRCodeResult {
+  textHash: string;
+  code: string;
+}
+
+// ============================================================================
+// I18n Types
+// ============================================================================
+
+/**
+ * Supported locales for error messages
+ */
+export type SupportedLocale = "en" | "ru" | "uz";
+
+/**
+ * Error message keys
+ */
+export type ErrorMessageKey =
+  | "ERIIMZO_NOT_INSTALLED"
+  | "ERIIMZO_CRYPTO_API_ERROR"
+  | "ERIIMZO_CERT_NOT_FOUND"
+  | "ERIIMZO_WRONG_PASSWORD"
+  | "ERIIMZO_NO_READER"
+  | "ERIIMZO_CARD_NOT_FOUND"
+  | "CAPIWS_CONNECTION"
+  | "BROWSER_WS"
+  | "UPDATE_APP"
+  | "WRONG_PASSWORD"
+  | "VERSION_UNDEFINED"
+  | "INSTALL_NEW_VERSION"
+  | "SIGNING_ERROR"
+  | "KEY_LOAD_ERROR"
+  | "CERTIFICATE_EXPIRED"
+  | "CERTIFICATE_NOT_YET_VALID";
 
 // ============================================================================
 // Global Type Augmentations
