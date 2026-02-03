@@ -1,0 +1,96 @@
+/* Vue E-Signature Playground Styles */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --eimzo-primary: #3498db;
+  --eimzo-primary-hover: #2980b9;
+  --eimzo-primary-light: #ebf5fb;
+
+  --eimzo-success: #27ae60;
+  --eimzo-success-light: #d4edda;
+  --eimzo-success-dark: #155724;
+
+  --eimzo-warning: #f39c12;
+  --eimzo-warning-light: #fff3cd;
+  --eimzo-warning-dark: #856404;
+
+  --eimzo-danger: #e74c3c;
+  --eimzo-danger-light: #f8d7da;
+  --eimzo-danger-dark: #721c24;
+
+  --eimzo-text: #333;
+  --eimzo-text-secondary: #666;
+  --eimzo-text-muted: #999;
+
+  --eimzo-bg: #fff;
+  --eimzo-bg-secondary: #f5f5f5;
+  --eimzo-bg-tertiary: #fafafa;
+
+  --eimzo-border: #eee;
+  --eimzo-border-dark: #ddd;
+
+  --eimzo-radius: 8px;
+  --eimzo-radius-sm: 4px;
+  --eimzo-radius-lg: 12px;
+
+  --eimzo-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --eimzo-shadow-lg: 0 4px 20px rgba(0, 0, 0, 0.15);
+
+  --eimzo-font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, sans-serif;
+  --eimzo-font-mono: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas,
+    "Courier New", monospace;
+
+  --eimzo-space-xs: 4px;
+  --eimzo-space-sm: 8px;
+  --eimzo-space-md: 16px;
+  --eimzo-space-lg: 24px;
+  --eimzo-space-xl: 32px;
+
+  --eimzo-transition: 0.2s ease;
+  --eimzo-transition-fast: 0.15s ease;
+}
+
+body {
+  font-family: var(--eimzo-font-family);
+  line-height: 1.5;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  color: var(--eimzo-text);
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --eimzo-text: #e0e0e0;
+    --eimzo-text-secondary: #b0b0b0;
+    --eimzo-text-muted: #808080;
+
+    --eimzo-bg: #1a1a1a;
+    --eimzo-bg-secondary: #252525;
+    --eimzo-bg-tertiary: #2a2a2a;
+
+    --eimzo-border: #333;
+    --eimzo-border-dark: #444;
+
+    --eimzo-primary-light: rgba(52, 152, 219, 0.2);
+    --eimzo-success-light: rgba(39, 174, 96, 0.2);
+    --eimzo-warning-light: rgba(243, 156, 18, 0.2);
+    --eimzo-danger-light: rgba(231, 76, 60, 0.2);
+  }
+
+  body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  }
+}
