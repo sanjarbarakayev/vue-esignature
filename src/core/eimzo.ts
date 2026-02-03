@@ -29,7 +29,8 @@ import type {
   SignPkcs7Result,
   VersionInfo,
 } from "../types";
-import { ERROR_MESSAGES, EIMZO_VERSION } from "../types";
+import { EIMZO_VERSION } from "../types";
+import { getErrorMessage } from "../i18n";
 
 /**
  * Main E-Signature service class providing Promise-based API
@@ -63,14 +64,13 @@ export class ESignature {
           const installedVersion = parseInt(major) * 100 + parseInt(minor);
 
           if (installedVersion < newVersion) {
-            reject(new Error(ERROR_MESSAGES.UPDATE_APP));
+            reject(new Error(getErrorMessage("UPDATE_APP")));
           } else {
             resolve({ major: parseInt(major), minor: parseInt(minor) });
           }
         },
-        (error: unknown, message: string | null) => {
-          console.error(error, message);
-          reject(new Error(message || ERROR_MESSAGES.CAPIWS_CONNECTION));
+        (_error: unknown, message: string | null) => {
+          reject(new Error(message || getErrorMessage("CAPIWS_CONNECTION")));
         }
       );
     });
@@ -118,7 +118,7 @@ export class ESignature {
   async installApiKeys(): Promise<void> {
     return new Promise((resolve, reject) => {
       EIMZOClient.installApiKeys(resolve, () => {
-        reject(new Error(ERROR_MESSAGES.CAPIWS_CONNECTION));
+        reject(new Error(getErrorMessage("CAPIWS_CONNECTION")));
       });
     });
   }
@@ -156,12 +156,12 @@ export class ESignature {
         (_e: unknown, r: string | null) => {
           if (r) {
             if (r.indexOf("BadPaddingException") !== -1) {
-              reject(new Error(ERROR_MESSAGES.WRONG_PASSWORD));
+              reject(new Error(getErrorMessage("WRONG_PASSWORD")));
             } else {
               reject(new Error(r));
             }
           } else {
-            reject(new Error(ERROR_MESSAGES.BROWSER_WS));
+            reject(new Error(getErrorMessage("BROWSER_WS")));
           }
         }
       );
@@ -184,12 +184,12 @@ export class ESignature {
         (_e: unknown, r: string | null) => {
           if (r) {
             if (r.indexOf("BadPaddingException") !== -1) {
-              reject(new Error(ERROR_MESSAGES.WRONG_PASSWORD));
+              reject(new Error(getErrorMessage("WRONG_PASSWORD")));
             } else {
               reject(new Error(r));
             }
           } else {
-            reject(new Error(ERROR_MESSAGES.BROWSER_WS));
+            reject(new Error(getErrorMessage("BROWSER_WS")));
           }
         }
       );
@@ -212,12 +212,12 @@ export class ESignature {
         (_e: unknown, r: string | null) => {
           if (r) {
             if (r.indexOf("BadPaddingException") !== -1) {
-              reject(new Error(ERROR_MESSAGES.WRONG_PASSWORD));
+              reject(new Error(getErrorMessage("WRONG_PASSWORD")));
             } else {
               reject(new Error(r));
             }
           } else {
-            reject(new Error(ERROR_MESSAGES.BROWSER_WS));
+            reject(new Error(getErrorMessage("BROWSER_WS")));
           }
         }
       );
@@ -248,12 +248,12 @@ export class ESignature {
         (_e: unknown, r: string | null) => {
           if (r) {
             if (r.indexOf("BadPaddingException") !== -1) {
-              reject(new Error(ERROR_MESSAGES.WRONG_PASSWORD));
+              reject(new Error(getErrorMessage("WRONG_PASSWORD")));
             } else {
               reject(new Error(r));
             }
           } else {
-            reject(new Error(ERROR_MESSAGES.BROWSER_WS));
+            reject(new Error(getErrorMessage("BROWSER_WS")));
           }
         }
       );
@@ -275,12 +275,12 @@ export class ESignature {
         (_e: unknown, r: string | null) => {
           if (r) {
             if (r.indexOf("BadPaddingException") !== -1) {
-              reject(new Error(ERROR_MESSAGES.WRONG_PASSWORD));
+              reject(new Error(getErrorMessage("WRONG_PASSWORD")));
             } else {
               reject(new Error(r));
             }
           } else {
-            reject(new Error(ERROR_MESSAGES.BROWSER_WS));
+            reject(new Error(getErrorMessage("BROWSER_WS")));
           }
         }
       );
@@ -302,12 +302,12 @@ export class ESignature {
         (_e: unknown, r: string | null) => {
           if (r) {
             if (r.indexOf("BadPaddingException") !== -1) {
-              reject(new Error(ERROR_MESSAGES.WRONG_PASSWORD));
+              reject(new Error(getErrorMessage("WRONG_PASSWORD")));
             } else {
               reject(new Error(r));
             }
           } else {
-            reject(new Error(ERROR_MESSAGES.BROWSER_WS));
+            reject(new Error(getErrorMessage("BROWSER_WS")));
           }
         }
       );

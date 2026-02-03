@@ -38,6 +38,39 @@ export { ESignature } from "./core/eimzo";
 export { CAPIWS } from "./core/capiws";
 export { EIMZOClient } from "./core/client";
 
+// Crypto utilities
+export { CRC32, crc32, crc32Hex } from "./core/crc32";
+export {
+  GostHash,
+  SignedAttributeHash,
+  Utf8,
+  gosthash,
+  gosthashHex,
+  GOST_TEST_VECTORS,
+} from "./core/gost-hash";
+export type { SignedAttributeHashResult } from "./core/gost-hash";
+
+// Mobile QR code support
+export { EIMZOMobile } from "./core/e-imzo-mobile";
+export type {
+  IQRCode,
+  IQRCodeConstructor,
+  EIMZOMobileOptions,
+  QRCodeResult,
+} from "./core/e-imzo-mobile";
+
+// I18n
+export {
+  i18n,
+  setLocale,
+  getLocale,
+  getErrorMessage,
+  getSupportedLocales,
+  isLocaleSupported,
+  detectAndSetBrowserLocale,
+} from "./i18n";
+export type { SupportedLocale, ErrorMessageKey } from "./i18n";
+
 // Types
 export type {
   // Certificate types
@@ -77,7 +110,38 @@ export type {
 
   // Base64 types
   IBase64,
+
+  // CRC32 types
+  ICRC32,
+
+  // GOST types
+  IGostHash,
+  GostTestVector,
+
+  // Mobile types
+  EIMZOMobileOptions as EIMZOMobileOptionsType,
+  QRCodeResult as QRCodeResultType,
+
+  // I18n types (re-export from types.ts for backwards compatibility)
+  SupportedLocale as SupportedLocaleType,
+  ErrorMessageKey as ErrorMessageKeyType,
 } from "./types";
 
 // Error messages and version constants
 export { ERROR_MESSAGES, EIMZO_VERSION } from "./types";
+
+// Detection utility
+export {
+  detectEIMZO,
+  getEIMZODownloadUrl,
+  isEIMZOAvailable,
+  getEIMZOWebSocketUrl,
+} from "./utils/eimzo-detector";
+export type { EIMZOStatus } from "./utils/eimzo-detector";
+
+// Demo Components
+export { default as StatusIndicator } from "./components/demos/StatusIndicator.vue";
+export { default as InstallPrompt } from "./components/demos/InstallPrompt.vue";
+export { default as CertificateSelector } from "./components/demos/CertificateSelector.vue";
+export { default as MobileQRModal } from "./components/demos/MobileQRModal.vue";
+export { default as ESignatureWidget } from "./components/demos/ESignatureWidget.vue";
