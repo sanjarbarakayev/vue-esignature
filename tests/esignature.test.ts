@@ -244,6 +244,81 @@ describe("ESignature", () => {
         "password"
       );
     });
+
+    it("should reject with error message on other errors", async () => {
+      vi.mocked(EIMZOClient.createPkcs7).mockImplementation(
+        (_id, _data, _ts, _success, fail) => {
+          fail(new Error("Signing error"), "Certificate expired");
+        }
+      );
+
+      await expect(esignature.createPkcs7("key-123", "data")).rejects.toThrow(
+        "Certificate expired"
+      );
+    });
+
+    it("should reject with BROWSER_WS on null error", async () => {
+      vi.mocked(EIMZOClient.createPkcs7).mockImplementation(
+        (_id, _data, _ts, _success, fail) => {
+          fail(null, null);
+        }
+      );
+
+      await expect(esignature.createPkcs7("key-123", "data")).rejects.toThrow();
+    });
+  });
+
+  describe("appendPkcs7Attached", () => {
+    it("should resolve with pkcs7 on success", async () => {
+      const mockPkcs7 = "attached-pkcs7-signature";
+      vi.mocked(EIMZOClient.createPkcs7).mockImplementation(
+        (_id, _data, _ts, success, _fail) => {
+          success(mockPkcs7);
+        }
+      );
+
+      const result = await esignature.appendPkcs7Attached(
+        "key-123",
+        "data to sign"
+      );
+      expect(result).toBe(mockPkcs7);
+    });
+
+    it("should reject with WRONG_PASSWORD on BadPaddingException", async () => {
+      vi.mocked(EIMZOClient.createPkcs7).mockImplementation(
+        (_id, _data, _ts, _success, fail) => {
+          fail(new Error("BadPaddingException"), "BadPaddingException");
+        }
+      );
+
+      await expect(
+        esignature.appendPkcs7Attached("key-123", "data")
+      ).rejects.toThrow("password");
+    });
+
+    it("should reject with error message on other errors", async () => {
+      vi.mocked(EIMZOClient.createPkcs7).mockImplementation(
+        (_id, _data, _ts, _success, fail) => {
+          fail(new Error("Append error"), "Failed to append signature");
+        }
+      );
+
+      await expect(
+        esignature.appendPkcs7Attached("key-123", "data")
+      ).rejects.toThrow("Failed to append signature");
+    });
+
+    it("should reject with BROWSER_WS on null error", async () => {
+      vi.mocked(EIMZOClient.createPkcs7).mockImplementation(
+        (_id, _data, _ts, _success, fail) => {
+          fail(null, null);
+        }
+      );
+
+      await expect(
+        esignature.appendPkcs7Attached("key-123", "data")
+      ).rejects.toThrow();
+    });
   });
 
   describe("isIDCardPlugged", () => {
@@ -268,6 +343,16 @@ describe("ESignature", () => {
       const result = await esignature.isIDCardPlugged();
       expect(result).toBe(false);
     });
+
+    it("should reject on failure", async () => {
+      vi.mocked(EIMZOClient.idCardIsPLuggedIn).mockImplementation(
+        (_success, fail) => {
+          fail(new Error("Reader not found"));
+        }
+      );
+
+      await expect(esignature.isIDCardPlugged()).rejects.toThrow();
+    });
   });
 
   describe("isBAIKTokenPlugged", () => {
@@ -280,6 +365,16 @@ describe("ESignature", () => {
 
       const result = await esignature.isBAIKTokenPlugged();
       expect(result).toBe(true);
+    });
+
+    it("should reject on failure", async () => {
+      vi.mocked(EIMZOClient.isBAIKTokenPLuggedIn).mockImplementation(
+        (_success, fail) => {
+          fail(new Error("Token not found"));
+        }
+      );
+
+      await expect(esignature.isBAIKTokenPlugged()).rejects.toThrow();
     });
   });
 
@@ -294,6 +389,16 @@ describe("ESignature", () => {
       const result = await esignature.isCKCPlugged();
       expect(result).toBe(false);
     });
+
+    it("should reject on failure", async () => {
+      vi.mocked(EIMZOClient.isCKCPLuggedIn).mockImplementation(
+        (_success, fail) => {
+          fail(new Error("CKC not found"));
+        }
+      );
+
+      await expect(esignature.isCKCPlugged()).rejects.toThrow();
+    });
   });
 
   describe("changeKeyPassword", () => {
@@ -307,6 +412,18 @@ describe("ESignature", () => {
       await expect(
         esignature.changeKeyPassword(mockPfxCertificate)
       ).resolves.toBeUndefined();
+    });
+
+    it("should reject on failure", async () => {
+      vi.mocked(EIMZOClient.changeKeyPassword).mockImplementation(
+        (_cert, _success, fail) => {
+          fail(new Error("Password change failed"));
+        }
+      );
+
+      await expect(
+        esignature.changeKeyPassword(mockPfxCertificate)
+      ).rejects.toThrow();
     });
   });
 
@@ -323,6 +440,38 @@ describe("ESignature", () => {
       const result = await esignature.signWithUSB("data");
       expect(result).toBe(mockPkcs7);
     });
+
+    it("should reject with WRONG_PASSWORD on BadPaddingException", async () => {
+      vi.mocked(EIMZOClient.createPkcs7).mockImplementation(
+        (_id, _data, _ts, _success, fail) => {
+          fail(new Error("BadPaddingException"), "BadPaddingException");
+        }
+      );
+
+      await expect(esignature.signWithUSB("data")).rejects.toThrow("password");
+    });
+
+    it("should reject with error message on other errors", async () => {
+      vi.mocked(EIMZOClient.createPkcs7).mockImplementation(
+        (_id, _data, _ts, _success, fail) => {
+          fail(new Error("Device error"), "USB device not responding");
+        }
+      );
+
+      await expect(esignature.signWithUSB("data")).rejects.toThrow(
+        "USB device not responding"
+      );
+    });
+
+    it("should reject with BROWSER_WS on null error", async () => {
+      vi.mocked(EIMZOClient.createPkcs7).mockImplementation(
+        (_id, _data, _ts, _success, fail) => {
+          fail(null, null);
+        }
+      );
+
+      await expect(esignature.signWithUSB("data")).rejects.toThrow();
+    });
   });
 
   describe("signWithBAIK", () => {
@@ -338,6 +487,38 @@ describe("ESignature", () => {
       const result = await esignature.signWithBAIK("data");
       expect(result).toBe(mockPkcs7);
     });
+
+    it("should reject with WRONG_PASSWORD on BadPaddingException", async () => {
+      vi.mocked(EIMZOClient.createPkcs7).mockImplementation(
+        (_id, _data, _ts, _success, fail) => {
+          fail(new Error("BadPaddingException"), "BadPaddingException");
+        }
+      );
+
+      await expect(esignature.signWithBAIK("data")).rejects.toThrow("password");
+    });
+
+    it("should reject with error message on other errors", async () => {
+      vi.mocked(EIMZOClient.createPkcs7).mockImplementation(
+        (_id, _data, _ts, _success, fail) => {
+          fail(new Error("Token error"), "BAIK token not found");
+        }
+      );
+
+      await expect(esignature.signWithBAIK("data")).rejects.toThrow(
+        "BAIK token not found"
+      );
+    });
+
+    it("should reject with BROWSER_WS on null error", async () => {
+      vi.mocked(EIMZOClient.createPkcs7).mockImplementation(
+        (_id, _data, _ts, _success, fail) => {
+          fail(null, null);
+        }
+      );
+
+      await expect(esignature.signWithBAIK("data")).rejects.toThrow();
+    });
   });
 
   describe("signWithCKC", () => {
@@ -352,6 +533,38 @@ describe("ESignature", () => {
 
       const result = await esignature.signWithCKC("data");
       expect(result).toBe(mockPkcs7);
+    });
+
+    it("should reject with WRONG_PASSWORD on BadPaddingException", async () => {
+      vi.mocked(EIMZOClient.createPkcs7).mockImplementation(
+        (_id, _data, _ts, _success, fail) => {
+          fail(new Error("BadPaddingException"), "BadPaddingException");
+        }
+      );
+
+      await expect(esignature.signWithCKC("data")).rejects.toThrow("password");
+    });
+
+    it("should reject with error message on other errors", async () => {
+      vi.mocked(EIMZOClient.createPkcs7).mockImplementation(
+        (_id, _data, _ts, _success, fail) => {
+          fail(new Error("CKC error"), "CKC device not connected");
+        }
+      );
+
+      await expect(esignature.signWithCKC("data")).rejects.toThrow(
+        "CKC device not connected"
+      );
+    });
+
+    it("should reject with BROWSER_WS on null error", async () => {
+      vi.mocked(EIMZOClient.createPkcs7).mockImplementation(
+        (_id, _data, _ts, _success, fail) => {
+          fail(null, null);
+        }
+      );
+
+      await expect(esignature.signWithCKC("data")).rejects.toThrow();
     });
   });
 
