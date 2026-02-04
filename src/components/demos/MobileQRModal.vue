@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, watch, nextTick } from "vue";
-import QRCode from "qrcode";
+import { ref, onMounted, onUnmounted, watch, nextTick, computed } from "vue";
 import { EIMZOMobile } from "../../core/e-imzo-mobile";
 
 const props = defineProps<{
@@ -26,6 +25,23 @@ const emit = defineEmits<{
   error: [error: Error];
 }>();
 
+const slots = defineSlots<{
+  /**
+   * Custom QR code renderer slot.
+   * Receives the QR code string to render.
+   *
+   * @example
+   * ```vue
+   * <MobileQRModal v-bind="props">
+   *   <template #qr="{ code, size }">
+   *     <QRCode :value="code" :size="size" />
+   *   </template>
+   * </MobileQRModal>
+   * ```
+   */
+  qr?: (props: { code: string; size: number }) => unknown;
+}>();
+
 type ModalState =
   | "generating"
   | "waiting"
@@ -34,11 +50,14 @@ type ModalState =
   | "error"
   | "timeout";
 
+const QR_SIZE = 280;
+
 const state = ref<ModalState>("generating");
-const qrCanvas = ref<HTMLCanvasElement | null>(null);
 const qrData = ref<{ hash: string; code: string } | null>(null);
 const errorMessage = ref("");
 const signature = ref("");
+
+const hasQrSlot = computed(() => !!slots.qr);
 
 let pollIntervalId: ReturnType<typeof setInterval> | null = null;
 let timeoutId: ReturnType<typeof setTimeout> | null = null;
@@ -109,17 +128,6 @@ async function initQRCode() {
       hash: result.textHash,
       code: result.code,
     };
-
-    if (qrCanvas.value) {
-      await QRCode.toCanvas(qrCanvas.value, result.code, {
-        width: 280,
-        margin: 2,
-        color: {
-          dark: "#000000",
-          light: "#ffffff",
-        },
-      });
-    }
 
     state.value = "waiting";
   } catch (err) {
@@ -279,7 +287,34 @@ defineExpose({
           <!-- QR code state -->
           <div v-else class="state-content qr-state">
             <div class="qr-container">
-              <canvas ref="qrCanvas" class="qr-canvas"></canvas>
+              <!-- User-provided QR renderer via slot -->
+              <template v-if="hasQrSlot && qrData">
+                <slot name="qr" :code="qrData.code" :size="QR_SIZE" />
+              </template>
+
+              <!-- Fallback: show code for manual QR generation -->
+              <template v-else-if="qrData && !hasQrSlot">
+                <div class="qr-fallback">
+                  <div class="qr-placeholder">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.5"
+                        d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h2M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"
+                      />
+                    </svg>
+                  </div>
+                  <p class="qr-hint">
+                    Provide a QR renderer via the <code>#qr</code> slot
+                  </p>
+                  <div class="qr-code-display">
+                    <span class="qr-code-label">QR Data:</span>
+                    <code class="qr-code-value">{{ qrData.code.substring(0, 32) }}...</code>
+                  </div>
+                </div>
+              </template>
+
               <div v-if="state === 'generating'" class="qr-loading">
                 <div class="spinner"></div>
               </div>
@@ -473,10 +508,72 @@ h3 {
   padding: var(--eimzo-space-md, 16px);
   background: var(--eimzo-bg-tertiary, #fafafa);
   border-radius: var(--eimzo-radius, 8px);
+  min-height: 200px;
+  min-width: 280px;
 }
 
-.qr-canvas {
-  display: block;
+.qr-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 16px;
+  text-align: center;
+}
+
+.qr-placeholder {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--eimzo-bg-secondary, #f0f0f0);
+  border-radius: 12px;
+  color: var(--eimzo-text-muted, #999);
+}
+
+.qr-placeholder svg {
+  width: 36px;
+  height: 36px;
+}
+
+.qr-hint {
+  font-size: 13px;
+  color: var(--eimzo-text-muted, #999);
+  margin: 0;
+}
+
+.qr-hint code {
+  background: var(--eimzo-bg-secondary, #f0f0f0);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.qr-code-display {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  max-width: 240px;
+}
+
+.qr-code-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--eimzo-text-muted, #999);
+  text-transform: uppercase;
+}
+
+.qr-code-value {
+  font-size: 10px;
+  font-family: var(--eimzo-font-mono, monospace);
+  background: var(--eimzo-bg-secondary, #f0f0f0);
+  padding: 8px;
+  border-radius: 6px;
+  word-break: break-all;
+  color: var(--eimzo-text-secondary, #666);
 }
 
 .qr-loading {
