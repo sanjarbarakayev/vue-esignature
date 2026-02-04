@@ -357,7 +357,7 @@ function handleCertSelect(cert: Certificate) {
             GitHub
           </a>
           <a
-            href="https://www.npmjs.com/package/@sanjarbarakayev/vue-esignature"
+            href="https://www.npmjs.com/package/@eimzo/vue"
             target="_blank"
           >
             npm

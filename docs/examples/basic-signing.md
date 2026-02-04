@@ -7,8 +7,8 @@ The simplest implementation of digital signing with Vue E-Signature.
 ```vue
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useESignature, setLocale } from '@sanjarbarakayev/vue-esignature'
-import type { Certificate } from '@sanjarbarakayev/vue-esignature'
+import { useESignature, setLocale } from '@eimzo/vue'
+import type { Certificate } from '@eimzo/vue'
 
 // Set language (optional)
 setLocale('en')
@@ -337,8 +337,8 @@ select:focus, textarea:focus {
 ### 1. Import and Setup
 
 ```ts
-import { useESignature, setLocale } from '@sanjarbarakayev/vue-esignature'
-import type { Certificate } from '@sanjarbarakayev/vue-esignature'
+import { useESignature, setLocale } from '@eimzo/vue'
+import type { Certificate } from '@eimzo/vue'
 
 setLocale('en') // Optional: set language
 

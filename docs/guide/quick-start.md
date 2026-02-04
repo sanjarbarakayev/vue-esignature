@@ -9,8 +9,8 @@ This guide will walk you through creating your first digital signature with Vue 
 ```vue
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useESignature } from '@sanjarbarakayev/vue-esignature'
-import type { Certificate } from '@sanjarbarakayev/vue-esignature'
+import { useESignature } from '@eimzo/vue'
+import type { Certificate } from '@eimzo/vue'
 
 const { install, listKeys, loadKey, signData, isInstalled, error } = useESignature()
 
@@ -129,8 +129,8 @@ Here's the complete component:
 ```vue
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useESignature } from '@sanjarbarakayev/vue-esignature'
-import type { Certificate } from '@sanjarbarakayev/vue-esignature'
+import { useESignature } from '@eimzo/vue'
+import type { Certificate } from '@eimzo/vue'
 
 const { install, listKeys, loadKey, signData, isInstalled, error } = useESignature()
 
@@ -297,7 +297,7 @@ button:disabled {
 If you prefer a class-based approach:
 
 ```ts
-import { ESignature } from '@sanjarbarakayev/vue-esignature'
+import { ESignature } from '@eimzo/vue'
 
 const esignature = new ESignature()
 

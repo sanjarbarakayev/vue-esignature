@@ -7,15 +7,15 @@ Install Vue E-Signature using your preferred package manager:
 ::: code-group
 
 ```bash [npm]
-npm install @sanjarbarakayev/vue-esignature
+npm install @eimzo/vue
 ```
 
 ```bash [pnpm]
-pnpm add @sanjarbarakayev/vue-esignature
+pnpm add @eimzo/vue
 ```
 
 ```bash [yarn]
-yarn add @sanjarbarakayev/vue-esignature
+yarn add @eimzo/vue
 ```
 
 :::
@@ -27,7 +27,7 @@ You can register Vue E-Signature as a Vue plugin to make it available throughout
 ```ts
 // main.ts
 import { createApp } from 'vue'
-import { VueESignature } from '@sanjarbarakayev/vue-esignature'
+import { VueESignature } from '@eimzo/vue'
 import App from './App.vue'
 
 const app = createApp(App)
@@ -50,7 +50,7 @@ Alternatively, import the composable or class directly in your components:
 
 ```vue
 <script setup lang="ts">
-import { useESignature } from '@sanjarbarakayev/vue-esignature'
+import { useESignature } from '@eimzo/vue'
 
 const esignature = useESignature()
 </script>
@@ -59,7 +59,7 @@ const esignature = useESignature()
 Or use the class-based API:
 
 ```ts
-import { ESignature } from '@sanjarbarakayev/vue-esignature'
+import { ESignature } from '@eimzo/vue'
 
 const esignature = new ESignature()
 ```
@@ -94,7 +94,7 @@ E-IMZO requires API keys for domain authorization. Default keys for `localhost` 
 For production, register your domain with E-IMZO and add your API key:
 
 ```ts
-import { ESignature } from '@sanjarbarakayev/vue-esignature'
+import { ESignature } from '@eimzo/vue'
 
 const esignature = new ESignature()
 

@@ -6,7 +6,7 @@
  *
  * @example
  * ```typescript
- * import { setLocale, getErrorMessage } from '@sanjarbarakayev/vue-esignature'
+ * import { setLocale, getErrorMessage } from '@eimzo/vue'
  *
  * // Set locale globally
  * setLocale('uz')

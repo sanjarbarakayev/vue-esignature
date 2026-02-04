@@ -3,7 +3,7 @@ import { ref, onMounted } from "vue";
 import {
   detectEIMZO,
   type EIMZOStatus,
-} from "@sanjarbarakayev/vue-esignature";
+} from "@eimzo/vue";
 import StatusIndicator from "@examples/StatusIndicator.vue";
 import InstallPrompt from "@examples/InstallPrompt.vue";
 

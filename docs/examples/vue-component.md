@@ -12,8 +12,8 @@ import {
   setLocale,
   getErrorMessage,
   type SupportedLocale
-} from '@sanjarbarakayev/vue-esignature'
-import type { Certificate } from '@sanjarbarakayev/vue-esignature'
+} from '@eimzo/vue'
+import type { Certificate } from '@eimzo/vue'
 
 // Props
 const props = withDefaults(defineProps<{
@@ -616,7 +616,7 @@ function downloadSignature() {
 <script setup lang="ts">
 import { ref } from 'vue'
 import ESignatureWidget from './ESignatureWidget.vue'
-import type { Certificate } from '@sanjarbarakayev/vue-esignature'
+import type { Certificate } from '@eimzo/vue'
 
 const showWidget = ref(false)
 const documentContent = ref('Contract terms and conditions...')

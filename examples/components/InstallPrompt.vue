@@ -12,7 +12,7 @@ import {
   detectEIMZO,
   getEIMZODownloadUrl,
   type EIMZOStatus,
-} from "@sanjarbarakayev/vue-esignature";
+} from "@eimzo/vue";
 
 const props = withDefaults(
   defineProps<{

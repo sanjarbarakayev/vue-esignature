@@ -7,7 +7,7 @@
  *
  * @example
  * ```typescript
- * import { GostHash, Utf8 } from '@sanjarbarakayev/vue-esignature'
+ * import { GostHash, Utf8 } from '@eimzo/vue'
  *
  * const hasher = new GostHash()
  * const hash = hasher.gosthash('Hello World')

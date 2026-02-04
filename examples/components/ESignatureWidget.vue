@@ -14,7 +14,7 @@ import {
   getErrorMessage,
   type Certificate,
   type SupportedLocale,
-} from "@sanjarbarakayev/vue-esignature";
+} from "@eimzo/vue";
 import InstallPrompt from "./InstallPrompt.vue";
 import CertificateSelector from "./CertificateSelector.vue";
 

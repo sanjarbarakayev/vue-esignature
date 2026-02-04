@@ -5,13 +5,13 @@ QR code generator for E-IMZO mobile signing.
 ## Import
 
 ```ts
-import { EIMZOMobile } from '@sanjarbarakayev/vue-esignature'
+import { EIMZOMobile } from '@eimzo/vue'
 import type {
   IQRCode,
   IQRCodeConstructor,
   EIMZOMobileOptions,
   QRCodeResult
-} from '@sanjarbarakayev/vue-esignature'
+} from '@eimzo/vue'
 ```
 
 ## Constructor
@@ -200,7 +200,7 @@ const mobile = new EIMZOMobile(siteId, element, QRCodeWrapper)
 ```vue
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { EIMZOMobile } from '@sanjarbarakayev/vue-esignature'
+import { EIMZOMobile } from '@eimzo/vue'
 import QRCode from 'qrcode.js'
 
 const props = defineProps<{
@@ -283,7 +283,7 @@ function regenerate() {
 Generate QR data on the server:
 
 ```ts
-import { EIMZOMobile } from '@sanjarbarakayev/vue-esignature'
+import { EIMZOMobile } from '@eimzo/vue'
 
 // No QRCode library needed for data generation
 const result = EIMZOMobile.generateQRCodeData(

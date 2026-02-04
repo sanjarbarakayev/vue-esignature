@@ -50,7 +50,7 @@ import type {
 
   // Base64
   IBase64
-} from '@sanjarbarakayev/vue-esignature'
+} from '@eimzo/vue'
 ```
 
 ## Certificate Types

@@ -10,14 +10,14 @@
  * ```typescript
  * // Install the plugin
  * import { createApp } from 'vue'
- * import { VueESignature } from '@sanjarbarakayev/vue-esignature'
+ * import { VueESignature } from '@eimzo/vue'
  *
  * const app = createApp(App)
  * app.use(VueESignature)
  * app.mount('#app')
  *
  * // Use the composable in components
- * import { useESignature } from '@sanjarbarakayev/vue-esignature'
+ * import { useESignature } from '@eimzo/vue'
  *
  * const { install, listKeys, loadKey, signData } = useESignature()
  * ```

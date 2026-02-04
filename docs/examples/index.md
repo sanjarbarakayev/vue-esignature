@@ -25,7 +25,7 @@ A complete, reusable signing component.
 ### Quick Sign
 
 ```ts
-import { useESignature } from '@sanjarbarakayev/vue-esignature'
+import { useESignature } from '@eimzo/vue'
 
 const { install, listKeys, loadKey, signData } = useESignature()
 
@@ -41,7 +41,7 @@ async function quickSign(content: string): Promise<string> {
 ### Check Hardware Tokens
 
 ```ts
-import { ESignature } from '@sanjarbarakayev/vue-esignature'
+import { ESignature } from '@eimzo/vue'
 
 async function detectHardware() {
   const esign = new ESignature()
@@ -72,7 +72,7 @@ async function signMultiple(documents: string[]): Promise<string[]> {
 ### Localized Errors
 
 ```ts
-import { setLocale, getErrorMessage } from '@sanjarbarakayev/vue-esignature'
+import { setLocale, getErrorMessage } from '@eimzo/vue'
 
 setLocale('uz')
 

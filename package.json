@@ -1,5 +1,5 @@
 {
-  "name": "@sanjarbarakayev/vue-esignature",
+  "name": "@eimzo/vue",
   "version": "2.0.0",
   "description": "Vue 3 plugin for E-IMZO electronic digital signature (EDS) integration - Uzbekistan's national digital signature system",
   "author": "Sanjar Barakayev",

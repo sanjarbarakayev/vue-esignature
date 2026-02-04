@@ -7,7 +7,7 @@ A reusable certificate picker component with filtering, validation, and detailed
 ```vue
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import type { Certificate, PfxCertificate, FtjcCertificate } from '@sanjarbarakayev/vue-esignature'
+import type { Certificate, PfxCertificate, FtjcCertificate } from '@eimzo/vue'
 
 const props = defineProps<{
   certificates: Certificate[]
@@ -419,8 +419,8 @@ function isFtjc(cert: Certificate): cert is FtjcCertificate {
 ```vue
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useESignature } from '@sanjarbarakayev/vue-esignature'
-import type { Certificate } from '@sanjarbarakayev/vue-esignature'
+import { useESignature } from '@eimzo/vue'
+import type { Certificate } from '@eimzo/vue'
 import CertificateSelector from './CertificateSelector.vue'
 
 const { install, listKeys } = useESignature()

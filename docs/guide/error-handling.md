@@ -66,7 +66,7 @@ try {
 Create a centralized error handler:
 
 ```ts
-import { getErrorMessage, type ErrorMessageKey } from '@sanjarbarakayev/vue-esignature'
+import { getErrorMessage, type ErrorMessageKey } from '@eimzo/vue'
 
 type ErrorType =
   | 'connection'

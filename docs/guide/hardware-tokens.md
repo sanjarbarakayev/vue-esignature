@@ -27,7 +27,7 @@ CKC (Crypto Key Container) devices:
 ### Check if ID Card is Plugged In
 
 ```ts
-import { useESignature } from '@sanjarbarakayev/vue-esignature'
+import { useESignature } from '@eimzo/vue'
 
 const { isIDCardPlugged } = useESignature()
 
@@ -62,7 +62,7 @@ console.log('CKC device connected:', ckcStatus)
 ### Sign with USB Token (ID Card)
 
 ```ts
-import { ESignature } from '@sanjarbarakayev/vue-esignature'
+import { ESignature } from '@eimzo/vue'
 
 const esign = new ESignature()
 await esign.install()
@@ -111,7 +111,7 @@ Create a component to detect and display connected hardware:
 ```vue
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { useESignature } from '@sanjarbarakayev/vue-esignature'
+import { useESignature } from '@eimzo/vue'
 
 const { isIDCardPlugged, isBAIKTokenPlugged, isCKCPlugged } = useESignature()
 
@@ -245,7 +245,7 @@ Component that prioritizes hardware tokens:
 ```vue
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useESignature } from '@sanjarbarakayev/vue-esignature'
+import { useESignature } from '@eimzo/vue'
 
 const props = defineProps<{
   content: string

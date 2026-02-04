@@ -20,7 +20,7 @@ Copy a component to your project and import the core API:
 
 ```vue
 <script setup>
-import { useESignature } from '@sanjarbarakayev/vue-esignature'
+import { useESignature } from '@eimzo/vue'
 // Your component logic using the composable
 </script>
 ```

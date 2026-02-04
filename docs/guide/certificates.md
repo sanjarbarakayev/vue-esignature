@@ -67,7 +67,7 @@ interface FtjcCertificate {
 To get all available certificates:
 
 ```ts
-import { useESignature } from '@sanjarbarakayev/vue-esignature'
+import { useESignature } from '@eimzo/vue'
 
 const { listKeys } = useESignature()
 
@@ -84,7 +84,7 @@ Create a component to display certificate details:
 
 ```vue
 <script setup lang="ts">
-import type { Certificate } from '@sanjarbarakayev/vue-esignature'
+import type { Certificate } from '@eimzo/vue'
 
 defineProps<{
   certificate: Certificate
@@ -229,7 +229,7 @@ A complete certificate selection component:
 ```vue
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import type { Certificate } from '@sanjarbarakayev/vue-esignature'
+import type { Certificate } from '@eimzo/vue'
 
 const props = defineProps<{
   certificates: Certificate[]

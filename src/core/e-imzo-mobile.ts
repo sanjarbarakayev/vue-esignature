@@ -6,7 +6,7 @@
  *
  * @example
  * ```typescript
- * import { EIMZOMobile } from '@sanjarbarakayev/vue-esignature'
+ * import { EIMZOMobile } from '@eimzo/vue'
  * import QRCode from 'qrcode' // User provides their own QRCode library
  *
  * const mobile = new EIMZOMobile('site123', document.getElementById('qr'), QRCode)

@@ -1,8 +1,8 @@
 # Vue E-Signature
 
-[![npm version](https://img.shields.io/npm/v/@sanjarbarakayev/vue-esignature.svg)](https://www.npmjs.com/package/@sanjarbarakayev/vue-esignature)
-[![npm downloads](https://img.shields.io/npm/dm/@sanjarbarakayev/vue-esignature.svg)](https://www.npmjs.com/package/@sanjarbarakayev/vue-esignature)
-[![license](https://img.shields.io/npm/l/@sanjarbarakayev/vue-esignature.svg)](https://github.com/sanjarbarakayev/vue-esignature/blob/main/LICENSE)
+[![npm version](https://img.shields.io/npm/v/@eimzo/vue.svg)](https://www.npmjs.com/package/@eimzo/vue)
+[![npm downloads](https://img.shields.io/npm/dm/@eimzo/vue.svg)](https://www.npmjs.com/package/@eimzo/vue)
+[![license](https://img.shields.io/npm/l/@eimzo/vue.svg)](https://github.com/sanjarbarakayev/vue-esignature/blob/main/LICENSE)
 
 Vue 3 plugin for **E-IMZO** electronic digital signature (EDS) integration - Uzbekistan's national digital signature system.
 
@@ -25,13 +25,13 @@ Vue 3 plugin for **E-IMZO** electronic digital signature (EDS) integration - Uzb
 
 ```bash
 # npm
-npm install @sanjarbarakayev/vue-esignature
+npm install @eimzo/vue
 
 # yarn
-yarn add @sanjarbarakayev/vue-esignature
+yarn add @eimzo/vue
 
 # pnpm
-pnpm add @sanjarbarakayev/vue-esignature
+pnpm add @eimzo/vue
 ```
 
 ## Quick Start
@@ -41,7 +41,7 @@ pnpm add @sanjarbarakayev/vue-esignature
 ```typescript
 // main.ts
 import { createApp } from 'vue'
-import { VueESignature } from '@sanjarbarakayev/vue-esignature'
+import { VueESignature } from '@eimzo/vue'
 import App from './App.vue'
 
 const app = createApp(App)
@@ -54,7 +54,7 @@ app.mount('#app')
 ```vue
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useESignature, type Certificate } from '@sanjarbarakayev/vue-esignature'
+import { useESignature, type Certificate } from '@eimzo/vue'
 
 const {
   isInstalled,
@@ -165,7 +165,7 @@ app.use(VueESignature, {
 For direct class usage without the composable:
 
 ```typescript
-import { ESignature } from '@sanjarbarakayev/vue-esignature'
+import { ESignature } from '@eimzo/vue'
 
 const signer = new ESignature()
 
@@ -299,7 +299,7 @@ import type {
   SignPkcs7Result,
   VersionInfo,
   ESignaturePluginOptions
-} from '@sanjarbarakayev/vue-esignature'
+} from '@eimzo/vue'
 ```
 
 ## Browser Support

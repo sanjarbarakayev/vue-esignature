@@ -30,7 +30,7 @@ npm install qrcode
 ### 2. Create EIMZOMobile Instance
 
 ```ts
-import { EIMZOMobile } from '@sanjarbarakayev/vue-esignature'
+import { EIMZOMobile } from '@eimzo/vue'
 import QRCode from 'qrcode.js' // or your preferred library
 
 // Get your site ID from E-IMZO registration
@@ -120,7 +120,7 @@ const mobile = new EIMZOMobile(SITE_ID, element, QRCodeWrapper)
 ```vue
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import { EIMZOMobile } from '@sanjarbarakayev/vue-esignature'
+import { EIMZOMobile } from '@eimzo/vue'
 import QRCode from 'qrcode.js'
 
 const props = defineProps<{
@@ -280,7 +280,7 @@ onUnmounted(() => {
 Generate QR code data without rendering:
 
 ```ts
-import { EIMZOMobile } from '@sanjarbarakayev/vue-esignature'
+import { EIMZOMobile } from '@eimzo/vue'
 
 // Generate data only (for server-side or custom rendering)
 const result = EIMZOMobile.generateQRCodeData(

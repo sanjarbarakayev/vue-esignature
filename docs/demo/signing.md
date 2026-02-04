@@ -30,7 +30,7 @@ import { ref } from 'vue'
 import {
   ESignatureWidget,
   type Certificate
-} from '@sanjarbarakayev/vue-esignature'
+} from '@eimzo/vue'
 
 const documentContent = ref('Contract content to sign...')
 
@@ -83,7 +83,7 @@ The widget supports three languages:
 
 ```typescript
 // Change language
-import { setLocale } from '@sanjarbarakayev/vue-esignature'
+import { setLocale } from '@eimzo/vue'
 
 setLocale('ru') // Russian
 setLocale('uz') // Uzbek

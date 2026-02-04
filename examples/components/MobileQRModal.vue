@@ -8,7 +8,7 @@
 -->
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, nextTick, computed } from "vue";
-import { EIMZOMobile } from "@sanjarbarakayev/vue-esignature";
+import { EIMZOMobile } from "@eimzo/vue";
 
 const props = defineProps<{
   /** Whether the modal is visible */

@@ -12,7 +12,7 @@ import type {
   Certificate,
   PfxCertificate,
   FtjcCertificate,
-} from "@sanjarbarakayev/vue-esignature";
+} from "@eimzo/vue";
 
 const props = defineProps<{
   certificates: Certificate[];

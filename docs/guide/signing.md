@@ -7,7 +7,7 @@ Learn how to create PKCS#7 digital signatures with Vue E-Signature.
 The simplest signing flow:
 
 ```ts
-import { useESignature } from '@sanjarbarakayev/vue-esignature'
+import { useESignature } from '@eimzo/vue'
 
 const { install, listKeys, loadKey, signData } = useESignature()
 
@@ -78,7 +78,7 @@ saveSignature(signature)
 ## Using the Class API
 
 ```ts
-import { ESignature } from '@sanjarbarakayev/vue-esignature'
+import { ESignature } from '@eimzo/vue'
 
 const esign = new ESignature()
 
@@ -126,7 +126,7 @@ async function signMultiple(documents: string[]) {
 Common errors and how to handle them:
 
 ```ts
-import { getErrorMessage, setLocale } from '@sanjarbarakayev/vue-esignature'
+import { getErrorMessage, setLocale } from '@eimzo/vue'
 
 // Set error message language
 setLocale('uz') // or 'ru', 'en'
@@ -213,8 +213,8 @@ A complete signing component:
 ```vue
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useESignature } from '@sanjarbarakayev/vue-esignature'
-import type { Certificate } from '@sanjarbarakayev/vue-esignature'
+import { useESignature } from '@eimzo/vue'
+import type { Certificate } from '@eimzo/vue'
 
 const props = defineProps<{
   content: string

@@ -8,7 +8,7 @@
 -->
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, computed, watch } from "vue";
-import { detectEIMZO, type EIMZOStatus } from "@sanjarbarakayev/vue-esignature";
+import { detectEIMZO, type EIMZOStatus } from "@eimzo/vue";
 
 const props = withDefaults(
   defineProps<{

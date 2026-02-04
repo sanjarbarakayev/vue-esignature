@@ -5,7 +5,7 @@ Vue 3 composable for E-IMZO digital signature operations.
 ## Import
 
 ```ts
-import { useESignature } from '@sanjarbarakayev/vue-esignature'
+import { useESignature } from '@eimzo/vue'
 ```
 
 ## Usage
@@ -219,8 +219,8 @@ Sign with CKC device.
 ```vue
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
-import { useESignature } from '@sanjarbarakayev/vue-esignature'
-import type { Certificate } from '@sanjarbarakayev/vue-esignature'
+import { useESignature } from '@eimzo/vue'
+import type { Certificate } from '@eimzo/vue'
 
 const {
   install,

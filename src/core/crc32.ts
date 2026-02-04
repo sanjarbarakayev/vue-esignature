@@ -6,7 +6,7 @@
  *
  * @example
  * ```typescript
- * import { CRC32 } from '@sanjarbarakayev/vue-esignature'
+ * import { CRC32 } from '@eimzo/vue'
  *
  * const crc = new CRC32()
  * const checksum = crc.calc('Hello World')

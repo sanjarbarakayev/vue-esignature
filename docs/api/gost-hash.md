@@ -12,7 +12,7 @@ import {
   gosthash,
   gosthashHex,
   GOST_TEST_VECTORS
-} from '@sanjarbarakayev/vue-esignature'
+} from '@eimzo/vue'
 ```
 
 ## GostHash Class
@@ -175,7 +175,7 @@ const hash2 = gosthashHex('74657374') // "test" in hex
 Official GOST R 34.11-94 test vectors:
 
 ```ts
-import { GOST_TEST_VECTORS, GostHash } from '@sanjarbarakayev/vue-esignature'
+import { GOST_TEST_VECTORS, GostHash } from '@eimzo/vue'
 
 const hasher = new GostHash()
 
@@ -199,7 +199,7 @@ GOST_TEST_VECTORS.forEach(vector => {
 ### Document Hashing
 
 ```ts
-import { gosthash } from '@sanjarbarakayev/vue-esignature'
+import { gosthash } from '@eimzo/vue'
 
 function hashDocument(content: string): string {
   return gosthash(content)
@@ -213,7 +213,7 @@ const docHash = hashDocument('Contract content...')
 Used by `EIMZOMobile` for document hashing:
 
 ```ts
-import { GostHash, CRC32 } from '@sanjarbarakayev/vue-esignature'
+import { GostHash, CRC32 } from '@eimzo/vue'
 
 function generateQRData(siteId: string, docNum: string, content: string) {
   const hasher = new GostHash()
@@ -230,7 +230,7 @@ function generateQRData(siteId: string, docNum: string, content: string) {
 ### Mobile Signing Attributes
 
 ```ts
-import { SignedAttributeHash } from '@sanjarbarakayev/vue-esignature'
+import { SignedAttributeHash } from '@eimzo/vue'
 
 const sah = new SignedAttributeHash()
 const result = sah.hash('Document to sign')

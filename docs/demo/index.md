@@ -47,7 +47,7 @@ import {
   MobileQRModal,
   InstallPrompt,
   StatusIndicator
-} from '@sanjarbarakayev/vue-esignature'
+} from '@eimzo/vue'
 ```
 
 See the [Examples](/examples/) section for detailed usage documentation.

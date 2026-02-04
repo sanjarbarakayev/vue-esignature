@@ -9,7 +9,7 @@ Vue E-Signature provides multiple APIs to integrate E-IMZO digital signatures in
 The recommended way to use Vue E-Signature in Vue 3 components:
 
 ```ts
-import { useESignature } from '@sanjarbarakayev/vue-esignature'
+import { useESignature } from '@eimzo/vue'
 
 const {
   install,
@@ -28,7 +28,7 @@ const {
 For class-based usage or outside Vue components:
 
 ```ts
-import { ESignature } from '@sanjarbarakayev/vue-esignature'
+import { ESignature } from '@eimzo/vue'
 
 const esign = new ESignature()
 await esign.install()
@@ -43,7 +43,7 @@ await esign.install()
 Calculate CRC32 checksums:
 
 ```ts
-import { CRC32, crc32, crc32Hex } from '@sanjarbarakayev/vue-esignature'
+import { CRC32, crc32, crc32Hex } from '@eimzo/vue'
 
 const checksum = crc32('Hello World')
 ```
@@ -55,7 +55,7 @@ const checksum = crc32('Hello World')
 Calculate GOST R 34.11-94 hashes:
 
 ```ts
-import { GostHash, gosthash } from '@sanjarbarakayev/vue-esignature'
+import { GostHash, gosthash } from '@eimzo/vue'
 
 const hash = gosthash('Document content')
 ```
@@ -69,7 +69,7 @@ const hash = gosthash('Document content')
 Generate QR codes for mobile signing:
 
 ```ts
-import { EIMZOMobile } from '@sanjarbarakayev/vue-esignature'
+import { EIMZOMobile } from '@eimzo/vue'
 
 const mobile = new EIMZOMobile(siteId, element, QRCodeLib)
 mobile.makeQRCode('DOC-001', 'Content')
@@ -84,7 +84,7 @@ mobile.makeQRCode('DOC-001', 'Content')
 Localized error messages:
 
 ```ts
-import { setLocale, getErrorMessage } from '@sanjarbarakayev/vue-esignature'
+import { setLocale, getErrorMessage } from '@eimzo/vue'
 
 setLocale('uz')
 const msg = getErrorMessage('WRONG_PASSWORD')
@@ -103,7 +103,7 @@ import type {
   FtjcCertificate,
   LoadKeyResult,
   SignPkcs7Result
-} from '@sanjarbarakayev/vue-esignature'
+} from '@eimzo/vue'
 ```
 
 [View full documentation →](/api/types)

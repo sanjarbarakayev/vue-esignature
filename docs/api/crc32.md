@@ -5,7 +5,7 @@ CRC32 checksum calculator for data validation.
 ## Import
 
 ```ts
-import { CRC32, crc32, crc32Hex } from '@sanjarbarakayev/vue-esignature'
+import { CRC32, crc32, crc32Hex } from '@eimzo/vue'
 ```
 
 ## CRC32 Class
@@ -91,7 +91,7 @@ const checksum = crc32Hex('74657374') // "test" in hex
 ### Data Validation
 
 ```ts
-import { crc32 } from '@sanjarbarakayev/vue-esignature'
+import { crc32 } from '@eimzo/vue'
 
 function validateData(data: string, expectedChecksum: string): boolean {
   return crc32(data) === expectedChecksum
@@ -103,7 +103,7 @@ function validateData(data: string, expectedChecksum: string): boolean {
 CRC32 is used internally by `EIMZOMobile` to add checksums to QR codes:
 
 ```ts
-import { CRC32 } from '@sanjarbarakayev/vue-esignature'
+import { CRC32 } from '@eimzo/vue'
 
 const crc = new CRC32()
 const qrData = 'SITE123DOC001<hash>'

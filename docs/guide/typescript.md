@@ -16,7 +16,7 @@ import type {
   VersionInfo,
   SupportedLocale,
   ErrorMessageKey
-} from '@sanjarbarakayev/vue-esignature'
+} from '@eimzo/vue'
 ```
 
 ## Certificate Types
@@ -83,12 +83,12 @@ function isFtjcCertificate(cert: Certificate): cert is FtjcCertificate {
 
 ```ts
 import { ref } from 'vue'
-import { useESignature } from '@sanjarbarakayev/vue-esignature'
+import { useESignature } from '@eimzo/vue'
 import type {
   Certificate,
   LoadKeyResult,
   SignPkcs7Result
-} from '@sanjarbarakayev/vue-esignature'
+} from '@eimzo/vue'
 
 const { install, listKeys, loadKey, signData } = useESignature()
 
@@ -115,12 +115,12 @@ async function loadAndSign(cert: Certificate, content: string) {
 ## Using Types with Class API
 
 ```ts
-import { ESignature } from '@sanjarbarakayev/vue-esignature'
+import { ESignature } from '@eimzo/vue'
 import type {
   Certificate,
   VersionInfo,
   LoadKeyResult
-} from '@sanjarbarakayev/vue-esignature'
+} from '@eimzo/vue'
 
 class SigningService {
   private esign = new ESignature()
@@ -161,7 +161,7 @@ Create type-safe components:
 
 ```vue
 <script setup lang="ts" generic="T extends Certificate">
-import type { Certificate } from '@sanjarbarakayev/vue-esignature'
+import type { Certificate } from '@eimzo/vue'
 
 const props = defineProps<{
   certificates: T[]
@@ -195,8 +195,8 @@ function selectCert(cert: T) {
 ## Type-Safe Error Handling
 
 ```ts
-import type { ErrorMessageKey, SupportedLocale } from '@sanjarbarakayev/vue-esignature'
-import { getErrorMessage, setLocale } from '@sanjarbarakayev/vue-esignature'
+import type { ErrorMessageKey, SupportedLocale } from '@eimzo/vue'
+import { getErrorMessage, setLocale } from '@eimzo/vue'
 
 // TypeScript ensures only valid keys are used
 const messageKey: ErrorMessageKey = 'WRONG_PASSWORD'
@@ -218,7 +218,7 @@ import type {
   IQRCodeConstructor,
   EIMZOMobileOptions,
   QRCodeResult
-} from '@sanjarbarakayev/vue-esignature'
+} from '@eimzo/vue'
 
 // Implement your own QR code adapter
 class CustomQRCode implements IQRCode {
@@ -248,9 +248,9 @@ import type {
   IGostHash,
   SignedAttributeHashResult,
   GostTestVector
-} from '@sanjarbarakayev/vue-esignature'
+} from '@eimzo/vue'
 
-import { GostHash, GOST_TEST_VECTORS } from '@sanjarbarakayev/vue-esignature'
+import { GostHash, GOST_TEST_VECTORS } from '@eimzo/vue'
 
 const hasher: IGostHash = new GostHash()
 const hash: string = hasher.gosthash('test')
@@ -265,7 +265,7 @@ vectors.forEach(v => {
 ## Type Assertions and Guards
 
 ```ts
-import type { Certificate, SignPkcs7Result } from '@sanjarbarakayev/vue-esignature'
+import type { Certificate, SignPkcs7Result } from '@eimzo/vue'
 
 // Type guard for SignPkcs7Result
 function isSignPkcs7Result(value: unknown): value is SignPkcs7Result {
@@ -327,9 +327,9 @@ Extend types if needed:
 
 ```ts
 // types/vue-esignature.d.ts
-import '@sanjarbarakayev/vue-esignature'
+import '@eimzo/vue'
 
-declare module '@sanjarbarakayev/vue-esignature' {
+declare module '@eimzo/vue' {
   interface PfxCertificate {
     // Add custom property
     customField?: string

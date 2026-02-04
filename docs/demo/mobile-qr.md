@@ -16,7 +16,7 @@ The `MobileQRModal` component generates QR codes for signing documents with the 
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
-import { MobileQRModal } from '@sanjarbarakayev/vue-esignature'
+import { MobileQRModal } from '@eimzo/vue'
 
 const showModal = ref(false)
 const documentContent = ref('Document to sign...')

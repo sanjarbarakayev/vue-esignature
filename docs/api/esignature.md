@@ -5,7 +5,7 @@ The main class for E-IMZO digital signature operations.
 ## Import
 
 ```ts
-import { ESignature } from '@sanjarbarakayev/vue-esignature'
+import { ESignature } from '@eimzo/vue'
 ```
 
 ## Constructor
@@ -248,7 +248,7 @@ Sign with CKC device.
 ## Complete Example
 
 ```ts
-import { ESignature } from '@sanjarbarakayev/vue-esignature'
+import { ESignature } from '@eimzo/vue'
 
 async function signDocument(content: string) {
   const esign = new ESignature()

@@ -7,7 +7,7 @@
  * ```typescript
  * // main.ts
  * import { createApp } from 'vue'
- * import { VueESignature } from '@sanjarbarakayev/vue-esignature'
+ * import { VueESignature } from '@eimzo/vue'
  *
  * const app = createApp(App)
  * app.use(VueESignature)

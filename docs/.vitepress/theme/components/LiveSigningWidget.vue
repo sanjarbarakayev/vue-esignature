@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import DemoWidget from "./DemoWidget.vue";
 import ESignatureWidget from "@examples/ESignatureWidget.vue";
-import type { Certificate } from "@sanjarbarakayev/vue-esignature";
+import type { Certificate } from "@eimzo/vue";
 
 const documentContent =
   "This is a sample document that demonstrates the signing workflow. The E-IMZO digital signature system provides cryptographic proof of document integrity and signer identity.";

@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import DemoWidget from "./DemoWidget.vue";
 import CertificateSelector from "@examples/CertificateSelector.vue";
-import type { Certificate } from "@sanjarbarakayev/vue-esignature";
+import type { Certificate } from "@eimzo/vue";
 
 const selectedCert = ref<Certificate | null>(null);
 

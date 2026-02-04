@@ -47,14 +47,14 @@ features:
 Install the package:
 
 ```bash
-npm install @sanjarbarakayev/vue-esignature
+npm install @eimzo/vue
 ```
 
 Use in your Vue component:
 
 ```vue
 <script setup lang="ts">
-import { useESignature } from '@sanjarbarakayev/vue-esignature'
+import { useESignature } from '@eimzo/vue'
 
 const { install, listKeys, loadKey, signData } = useESignature()
 

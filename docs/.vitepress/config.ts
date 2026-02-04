@@ -33,7 +33,7 @@ export default defineConfig({
           },
           {
             text: "npm",
-            link: "https://www.npmjs.com/package/@sanjarbarakayev/vue-esignature",
+            link: "https://www.npmjs.com/package/@eimzo/vue",
           },
           { text: "E-IMZO Official", link: "https://e-imzo.uz" },
         ],
@@ -154,7 +154,7 @@ export default defineConfig({
   vite: {
     resolve: {
       alias: {
-        "@sanjarbarakayev/vue-esignature": resolve(
+        "@eimzo/vue": resolve(
           __dirname,
           "../../src/index.ts"
         ),

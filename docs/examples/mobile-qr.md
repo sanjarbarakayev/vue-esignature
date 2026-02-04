@@ -7,7 +7,7 @@ Generate QR codes for E-IMZO mobile app signing workflow.
 ```vue
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch } from 'vue'
-import { EIMZOMobile } from '@sanjarbarakayev/vue-esignature'
+import { EIMZOMobile } from '@eimzo/vue'
 import QRCode from 'qrcode.js'
 
 const props = defineProps<{

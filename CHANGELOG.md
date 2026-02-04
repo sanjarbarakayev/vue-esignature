@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `CertificateSelector`
   - `MobileQRModal`
   - `ESignatureWidget`
-- **Removed CSS export** - `@sanjarbarakayev/vue-esignature/dist/style.css` is no longer available
+- **Removed CSS export** - `@eimzo/vue/dist/style.css` is no longer available
 
 ### Migration Guide
 

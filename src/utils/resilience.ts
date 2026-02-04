@@ -6,7 +6,7 @@
  *
  * @example
  * ```typescript
- * import { withResilience, TimeoutError, RetryExhaustedError } from '@sanjarbarakayev/vue-esignature'
+ * import { withResilience, TimeoutError, RetryExhaustedError } from '@eimzo/vue'
  *
  * // Wrap an operation with timeout and retry
  * const result = await withResilience(

@@ -20,7 +20,7 @@ import {
   useESignature,
   CertificateSelector,
   type Certificate
-} from '@sanjarbarakayev/vue-esignature'
+} from '@eimzo/vue'
 
 const { install, listKeys } = useESignature()
 const certificates = ref<Certificate[]>([])
