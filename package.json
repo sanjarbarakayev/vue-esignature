@@ -61,14 +61,19 @@
     "playground": "vite --config playground/vite.config.ts",
     "playground:build": "vite build --config playground/vite.config.ts --outDir playground/dist",
     "playground:preview": "vite preview --config playground/vite.config.ts --outDir playground/dist",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:debug": "playwright test --debug",
     "prepublishOnly": "npm run build"
   },
   "peerDependencies": {
     "vue": "^3.3.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.40.0",
     "@types/node": "^20.10.0",
     "@types/qrcode": "^1.5.6",
+    "@types/ws": "^8.5.10",
     "@vitejs/plugin-vue": "^4.5.0",
     "@vitest/coverage-v8": "^2.0.0",
     "happy-dom": "^15.0.0",
@@ -79,7 +84,8 @@
     "vitepress": "^1.5.0",
     "vitest": "^2.0.0",
     "vue": "^3.3.0",
-    "vue-tsc": "^3.2.4"
+    "vue-tsc": "^3.2.4",
+    "ws": "^8.16.0"
   },
   "engines": {
     "node": ">=18.0.0"
