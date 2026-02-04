@@ -5,6 +5,43 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2025-02-04
+
+### Changed
+
+- **BREAKING**: `MobileQRModal` now uses slot-based QR rendering instead of bundling qrcode library
+  - Pass your own QR component via `#qr` slot: `<template #qr="{ code, size }">...</template>`
+  - Supports any QR library (qrcode, vue-qrcode, qrcode.vue, etc.)
+  - Shows helpful fallback when no slot provided
+
+### Performance
+
+- Reduced package size by **73%** (1.3 MB → 351 KB unpacked)
+- Removed source maps from production build (saves ~885 KB)
+- Added aggressive terser compression with 2-pass optimization
+- Removed `qrcode` runtime dependency (zero dependencies now)
+
+### Added
+
+- E2E testing infrastructure with Playwright
+- WebSocket testing support
+
+## [1.2.0] - 2025-02-03
+
+### Added
+
+- Mobile signature support via QR codes (`e-imzo-mobile.js` conversion complete)
+- CRC32 checksum utility (`crc32.js` conversion complete)
+- GOST hash utilities (`pkcs.js` conversion complete)
+- Demo components and styles for showcasing library usage
+- VitePress documentation site
+- Comprehensive test suite
+- GitHub Pages deployment workflow
+
+### Changed
+
+- Export new modules from core for easier access to utilities
+
 ## [1.1.2] - 2024-11-28
 
 ### Fixed
@@ -45,6 +82,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Planned
 
 - Vue component for certificate selection
-- Mobile signature support via QR code
 - Timestamping service integration
 - Signature verification utilities
