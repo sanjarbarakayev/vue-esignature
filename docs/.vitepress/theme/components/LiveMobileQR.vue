@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import DemoWidget from "./DemoWidget.vue";
-import MobileQRModal from "../../../../src/components/demos/MobileQRModal.vue";
+import MobileQRModal from "@examples/MobileQRModal.vue";
 
 const showModal = ref(false);
 

@@ -1,6 +1,14 @@
+<!--
+  EXAMPLE COMPONENT - Not included in npm package
+
+  This is a reference implementation showing how to build UI with the core API.
+  Copy and customize for your project.
+
+  Source: https://github.com/sanjarbarakayev/vue-esignature/tree/main/examples/components
+-->
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, nextTick, computed } from "vue";
-import { EIMZOMobile } from "../../core/e-imzo-mobile";
+import { EIMZOMobile } from "@sanjarbarakayev/vue-esignature";
 
 const props = defineProps<{
   /** Whether the modal is visible */

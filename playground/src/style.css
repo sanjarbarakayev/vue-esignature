@@ -59,7 +59,7 @@
 body {
   font-family: var(--eimzo-font-family);
   line-height: 1.5;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--eimzo-bg-tertiary);
   min-height: 100vh;
   color: var(--eimzo-text);
 }
@@ -90,7 +90,4 @@ body {
     --eimzo-danger-light: rgba(231, 76, 60, 0.2);
   }
 
-  body {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-  }
 }

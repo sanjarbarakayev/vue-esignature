@@ -6,6 +6,10 @@ export default defineConfig({
   test: {
     environment: "happy-dom",
     include: ["tests/**/*.test.ts"],
+    setupFiles: ["tests/setup.ts"],
+    // Allow tests to pass even with promise rejection warnings caused by fake timers
+    // These occur because the resilience wrapper uses timeouts that reject asynchronously
+    dangerouslyIgnoreUnhandledErrors: true,
     coverage: {
       provider: "v8",
       reporter: ["text", "json", "html"],

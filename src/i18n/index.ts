@@ -40,7 +40,11 @@ export type ErrorMessageKey =
   | "SIGNING_ERROR"
   | "KEY_LOAD_ERROR"
   | "CERTIFICATE_EXPIRED"
-  | "CERTIFICATE_NOT_YET_VALID";
+  | "CERTIFICATE_NOT_YET_VALID"
+  | "OPERATION_TIMEOUT"
+  | "RETRY_EXHAUSTED"
+  | "CONNECTION_LOST"
+  | "RECONNECTING";
 
 /**
  * Message dictionary type
@@ -78,6 +82,13 @@ const messages: Record<SupportedLocale, MessageDictionary> = {
       "Your certificate has expired. Please renew your certificate.",
     CERTIFICATE_NOT_YET_VALID:
       "Your certificate is not yet valid. Please check the certificate validity period.",
+    OPERATION_TIMEOUT:
+      "The operation timed out. Please check your connection and try again.",
+    RETRY_EXHAUSTED:
+      "The operation failed after multiple attempts. Please try again later.",
+    CONNECTION_LOST:
+      "Connection to E-IMZO was lost. Please ensure E-IMZO is running.",
+    RECONNECTING: "Reconnecting to E-IMZO...",
   },
   ru: {
     ERIIMZO_NOT_INSTALLED:
@@ -107,6 +118,13 @@ const messages: Record<SupportedLocale, MessageDictionary> = {
       "Срок действия вашего сертификата истек. Пожалуйста, обновите сертификат.",
     CERTIFICATE_NOT_YET_VALID:
       "Ваш сертификат еще не действителен. Пожалуйста, проверьте срок действия сертификата.",
+    OPERATION_TIMEOUT:
+      "Время ожидания операции истекло. Проверьте соединение и попробуйте снова.",
+    RETRY_EXHAUSTED:
+      "Операция не удалась после нескольких попыток. Пожалуйста, попробуйте позже.",
+    CONNECTION_LOST:
+      "Соединение с E-IMZO потеряно. Убедитесь, что E-IMZO запущен.",
+    RECONNECTING: "Переподключение к E-IMZO...",
   },
   uz: {
     ERIIMZO_NOT_INSTALLED:
@@ -138,6 +156,13 @@ const messages: Record<SupportedLocale, MessageDictionary> = {
       "Sertifikatingiz muddati tugagan. Iltimos, sertifikatingizni yangilang.",
     CERTIFICATE_NOT_YET_VALID:
       "Sertifikatingiz hali amal qilmayapti. Iltimos, sertifikat amal qilish muddatini tekshiring.",
+    OPERATION_TIMEOUT:
+      "Amaliyot vaqti tugadi. Iltimos, ulanishingizni tekshiring va qayta urinib ko'ring.",
+    RETRY_EXHAUSTED:
+      "Amaliyot bir necha urinishdan keyin muvaffaqiyatsiz tugadi. Iltimos, keyinroq urinib ko'ring.",
+    CONNECTION_LOST:
+      "E-IMZO bilan aloqa uzildi. E-IMZO ishga tushirilganligiga ishonch hosil qiling.",
+    RECONNECTING: "E-IMZO ga qayta ulanish...",
   },
 };
 

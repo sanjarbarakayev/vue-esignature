@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import DemoWidget from "./DemoWidget.vue";
-import CertificateSelector from "../../../../src/components/demos/CertificateSelector.vue";
-import type { Certificate } from "../../../../src/types";
+import CertificateSelector from "@examples/CertificateSelector.vue";
+import type { Certificate } from "@sanjarbarakayev/vue-esignature";
 
 const selectedCert = ref<Certificate | null>(null);
 

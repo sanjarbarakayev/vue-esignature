@@ -6,7 +6,6 @@
  */
 
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { ESignature } from "../src/core/eimzo";
 import { mockPfxCertificate, mockFtjcCertificate } from "./mocks/capiws.mock";
 
 // Mock the EIMZOClient module
@@ -29,16 +28,45 @@ vi.mock("../src/core/client", () => ({
 }));
 
 import { EIMZOClient } from "../src/core/client";
+import { ESignature } from "../src/core/eimzo";
+
+/**
+ * Helper to safely await a promise that may reject after timer advancement.
+ * This prevents unhandled rejection warnings in tests.
+ */
+async function expectToReject(
+  createPromise: () => Promise<unknown>,
+  errorMatcher?: string | RegExp
+): Promise<void> {
+  const promise = createPromise();
+
+  // Advance timers to trigger timeouts
+  await vi.runAllTimersAsync();
+
+  // Use allSettled to ensure the rejection is handled
+  const [result] = await Promise.allSettled([promise]);
+
+  expect(result.status).toBe("rejected");
+  if (errorMatcher && result.status === "rejected") {
+    expect((result.reason as Error).message).toMatch(errorMatcher);
+  }
+}
 
 describe("ESignature", () => {
   let esignature: ESignature;
 
   beforeEach(() => {
-    esignature = new ESignature();
+    vi.useFakeTimers();
+    // Create ESignature with resilience disabled to avoid timer complexities in tests
+    esignature = new ESignature({
+      enableRetry: false,
+      timeout: 100, // Short timeout for tests
+    });
     vi.clearAllMocks();
   });
 
   afterEach(() => {
+    vi.useRealTimers();
     vi.resetAllMocks();
   });
 
@@ -50,6 +78,18 @@ describe("ESignature", () => {
 
     it("should have null loadedKey initially", () => {
       expect(esignature.loadedKey).toBeNull();
+    });
+
+    it("should accept custom resilience options", () => {
+      const customSigner = new ESignature({
+        timeout: 5000,
+        enableRetry: true,
+        maxRetries: 5,
+      });
+      const options = customSigner.getOptions();
+      expect(options.timeout).toBe(5000);
+      expect(options.enableRetry).toBe(true);
+      expect(options.maxRetries).toBe(5);
     });
   });
 
@@ -86,7 +126,7 @@ describe("ESignature", () => {
         }
       );
 
-      await expect(esignature.checkVersion()).rejects.toThrow();
+      await expectToReject(() => esignature.checkVersion());
     });
 
     it("should reject with error message on failure", async () => {
@@ -96,9 +136,7 @@ describe("ESignature", () => {
         }
       );
 
-      await expect(esignature.checkVersion()).rejects.toThrow(
-        "Connection failed"
-      );
+      await expectToReject(() => esignature.checkVersion(), /Connection failed/);
     });
 
     it("should reject with CAPIWS_CONNECTION on null error", async () => {
@@ -108,7 +146,7 @@ describe("ESignature", () => {
         }
       );
 
-      await expect(esignature.checkVersion()).rejects.toThrow();
+      await expectToReject(() => esignature.checkVersion());
     });
   });
 
@@ -130,7 +168,7 @@ describe("ESignature", () => {
         }
       );
 
-      await expect(esignature.installApiKeys()).rejects.toThrow();
+      await expectToReject(() => esignature.installApiKeys());
     });
   });
 
@@ -155,9 +193,7 @@ describe("ESignature", () => {
         }
       );
 
-      await expect(esignature.listAllUserKeys()).rejects.toThrow(
-        "Failed to list keys"
-      );
+      await expectToReject(() => esignature.listAllUserKeys(), /Failed to list keys/);
     });
   });
 
@@ -204,9 +240,7 @@ describe("ESignature", () => {
         }
       );
 
-      await expect(esignature.loadKey(mockPfxCertificate)).rejects.toThrow(
-        "Some other error"
-      );
+      await expectToReject(() => esignature.loadKey(mockPfxCertificate), /Some other error/);
     });
 
     it("should reject with BROWSER_WS on null error", async () => {
@@ -216,7 +250,7 @@ describe("ESignature", () => {
         }
       );
 
-      await expect(esignature.loadKey(mockPfxCertificate)).rejects.toThrow();
+      await expectToReject(() => esignature.loadKey(mockPfxCertificate));
     });
   });
 
@@ -252,9 +286,7 @@ describe("ESignature", () => {
         }
       );
 
-      await expect(esignature.createPkcs7("key-123", "data")).rejects.toThrow(
-        "Certificate expired"
-      );
+      await expectToReject(() => esignature.createPkcs7("key-123", "data"), /Certificate expired/);
     });
 
     it("should reject with BROWSER_WS on null error", async () => {
@@ -264,7 +296,7 @@ describe("ESignature", () => {
         }
       );
 
-      await expect(esignature.createPkcs7("key-123", "data")).rejects.toThrow();
+      await expectToReject(() => esignature.createPkcs7("key-123", "data"));
     });
   });
 
@@ -303,9 +335,10 @@ describe("ESignature", () => {
         }
       );
 
-      await expect(
-        esignature.appendPkcs7Attached("key-123", "data")
-      ).rejects.toThrow("Failed to append signature");
+      await expectToReject(
+        () => esignature.appendPkcs7Attached("key-123", "data"),
+        /Failed to append signature/
+      );
     });
 
     it("should reject with BROWSER_WS on null error", async () => {
@@ -315,9 +348,7 @@ describe("ESignature", () => {
         }
       );
 
-      await expect(
-        esignature.appendPkcs7Attached("key-123", "data")
-      ).rejects.toThrow();
+      await expectToReject(() => esignature.appendPkcs7Attached("key-123", "data"));
     });
   });
 
@@ -351,7 +382,7 @@ describe("ESignature", () => {
         }
       );
 
-      await expect(esignature.isIDCardPlugged()).rejects.toThrow();
+      await expectToReject(() => esignature.isIDCardPlugged());
     });
   });
 
@@ -374,7 +405,7 @@ describe("ESignature", () => {
         }
       );
 
-      await expect(esignature.isBAIKTokenPlugged()).rejects.toThrow();
+      await expectToReject(() => esignature.isBAIKTokenPlugged());
     });
   });
 
@@ -397,7 +428,7 @@ describe("ESignature", () => {
         }
       );
 
-      await expect(esignature.isCKCPlugged()).rejects.toThrow();
+      await expectToReject(() => esignature.isCKCPlugged());
     });
   });
 
@@ -421,9 +452,7 @@ describe("ESignature", () => {
         }
       );
 
-      await expect(
-        esignature.changeKeyPassword(mockPfxCertificate)
-      ).rejects.toThrow();
+      await expectToReject(() => esignature.changeKeyPassword(mockPfxCertificate));
     });
   });
 
@@ -458,9 +487,7 @@ describe("ESignature", () => {
         }
       );
 
-      await expect(esignature.signWithUSB("data")).rejects.toThrow(
-        "USB device not responding"
-      );
+      await expectToReject(() => esignature.signWithUSB("data"), /USB device not responding/);
     });
 
     it("should reject with BROWSER_WS on null error", async () => {
@@ -470,7 +497,7 @@ describe("ESignature", () => {
         }
       );
 
-      await expect(esignature.signWithUSB("data")).rejects.toThrow();
+      await expectToReject(() => esignature.signWithUSB("data"));
     });
   });
 
@@ -505,9 +532,7 @@ describe("ESignature", () => {
         }
       );
 
-      await expect(esignature.signWithBAIK("data")).rejects.toThrow(
-        "BAIK token not found"
-      );
+      await expectToReject(() => esignature.signWithBAIK("data"), /BAIK token not found/);
     });
 
     it("should reject with BROWSER_WS on null error", async () => {
@@ -517,7 +542,7 @@ describe("ESignature", () => {
         }
       );
 
-      await expect(esignature.signWithBAIK("data")).rejects.toThrow();
+      await expectToReject(() => esignature.signWithBAIK("data"));
     });
   });
 
@@ -552,9 +577,7 @@ describe("ESignature", () => {
         }
       );
 
-      await expect(esignature.signWithCKC("data")).rejects.toThrow(
-        "CKC device not connected"
-      );
+      await expectToReject(() => esignature.signWithCKC("data"), /CKC device not connected/);
     });
 
     it("should reject with BROWSER_WS on null error", async () => {
@@ -564,7 +587,7 @@ describe("ESignature", () => {
         }
       );
 
-      await expect(esignature.signWithCKC("data")).rejects.toThrow();
+      await expectToReject(() => esignature.signWithCKC("data"));
     });
   });
 
@@ -595,7 +618,7 @@ describe("ESignature", () => {
         }
       );
 
-      await expect(esignature.install()).rejects.toThrow();
+      await expectToReject(() => esignature.install());
     });
   });
 

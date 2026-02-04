@@ -3,9 +3,9 @@ import { ref, onMounted } from "vue";
 import {
   detectEIMZO,
   type EIMZOStatus,
-} from "../../../../src/utils/eimzo-detector";
-import StatusIndicator from "../../../../src/components/demos/StatusIndicator.vue";
-import InstallPrompt from "../../../../src/components/demos/InstallPrompt.vue";
+} from "@sanjarbarakayev/vue-esignature";
+import StatusIndicator from "@examples/StatusIndicator.vue";
+import InstallPrompt from "@examples/InstallPrompt.vue";
 
 const props = withDefaults(
   defineProps<{

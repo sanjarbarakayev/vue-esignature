@@ -1,8 +1,20 @@
+<!--
+  EXAMPLE COMPONENT - Not included in npm package
+
+  This is a reference implementation showing how to build UI with the core API.
+  Copy and customize for your project.
+
+  Source: https://github.com/sanjarbarakayev/vue-esignature/tree/main/examples/components
+-->
 <script setup lang="ts">
 import { ref, computed, watch } from "vue";
-import { useESignature } from "../../composable";
-import { setLocale, getErrorMessage } from "../../i18n";
-import type { Certificate, SupportedLocale } from "../../types";
+import {
+  useESignature,
+  setLocale,
+  getErrorMessage,
+  type Certificate,
+  type SupportedLocale,
+} from "@sanjarbarakayev/vue-esignature";
 import InstallPrompt from "./InstallPrompt.vue";
 import CertificateSelector from "./CertificateSelector.vue";
 

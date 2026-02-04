@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import {
-  StatusIndicator,
-  InstallPrompt,
-  CertificateSelector,
-  MobileQRModal,
-  ESignatureWidget,
-  setLocale,
-  type SupportedLocale,
-  type Certificate,
-} from "@/index";
+
+// Example components (NOT included in npm package)
+import StatusIndicator from "@examples/StatusIndicator.vue";
+import InstallPrompt from "@examples/InstallPrompt.vue";
+import CertificateSelector from "@examples/CertificateSelector.vue";
+import MobileQRModal from "@examples/MobileQRModal.vue";
+import ESignatureWidget from "@examples/ESignatureWidget.vue";
+
+// Core API (from library)
+import { setLocale, type SupportedLocale, type Certificate } from "@/index";
 
 type Tab = "signing" | "certificates" | "mobile" | "hardware";
 
@@ -390,9 +390,10 @@ function handleCertSelect(cert: Certificate) {
 
 /* Header */
 .header {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--eimzo-bg);
   backdrop-filter: blur(10px);
   box-shadow: var(--eimzo-shadow);
+  border-bottom: 1px solid var(--eimzo-border);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -438,6 +439,7 @@ function handleCertSelect(cert: Certificate) {
   background: var(--eimzo-bg);
   font-size: 14px;
   cursor: pointer;
+  color: #fff;
 }
 
 /* Main */
@@ -453,7 +455,8 @@ function handleCertSelect(cert: Certificate) {
 .tabs {
   display: flex;
   gap: var(--eimzo-space-xs);
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--eimzo-bg-secondary);
+  border: 1px solid var(--eimzo-border);
   padding: var(--eimzo-space-xs);
   border-radius: var(--eimzo-radius-lg);
   margin-bottom: var(--eimzo-space-lg);
@@ -483,10 +486,13 @@ function handleCertSelect(cert: Certificate) {
 
 /* Tab Content */
 .tab-content {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--eimzo-bg);
+  border: 1px solid var(--eimzo-border);
   border-radius: var(--eimzo-radius-lg);
   box-shadow: var(--eimzo-shadow-lg);
   overflow: hidden;
+  display: flex;
+  justify-content: center;
 }
 
 .tab-panel {
@@ -498,13 +504,15 @@ function handleCertSelect(cert: Certificate) {
 }
 
 .panel-header h2 {
-  font-size: 24px;
+  font-size: 22px;
+  font-weight: 600;
   color: var(--eimzo-text);
   margin-bottom: var(--eimzo-space-xs);
 }
 
 .panel-header p {
   color: var(--eimzo-text-secondary);
+  font-size: 14px;
 }
 
 .panel-content {
@@ -567,7 +575,7 @@ function handleCertSelect(cert: Certificate) {
 .phone-screen {
   width: 100%;
   height: 100%;
-  background: white;
+  background: var(--eimzo-bg);
   border-radius: 16px;
   overflow: hidden;
   display: flex;
@@ -717,7 +725,8 @@ function handleCertSelect(cert: Certificate) {
 
 /* Footer */
 .footer {
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--eimzo-bg-secondary);
+  border-top: 1px solid var(--eimzo-border);
   padding: var(--eimzo-space-lg);
   margin-top: auto;
 }
@@ -726,7 +735,7 @@ function handleCertSelect(cert: Certificate) {
   max-width: 1200px;
   margin: 0 auto;
   text-align: center;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--eimzo-text-secondary);
 }
 
 .footer-links {
@@ -737,7 +746,7 @@ function handleCertSelect(cert: Certificate) {
 }
 
 .footer-links a {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--eimzo-primary);
   text-decoration: none;
 }
 

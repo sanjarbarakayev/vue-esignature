@@ -158,6 +158,7 @@ export default defineConfig({
           __dirname,
           "../../src/index.ts"
         ),
+        "@examples": resolve(__dirname, "../../examples/components"),
       },
     },
   },

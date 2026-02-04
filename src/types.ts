@@ -521,7 +521,11 @@ export type ErrorMessageKey =
   | "SIGNING_ERROR"
   | "KEY_LOAD_ERROR"
   | "CERTIFICATE_EXPIRED"
-  | "CERTIFICATE_NOT_YET_VALID";
+  | "CERTIFICATE_NOT_YET_VALID"
+  | "OPERATION_TIMEOUT"
+  | "RETRY_EXHAUSTED"
+  | "CONNECTION_LOST"
+  | "RECONNECTING";
 
 // ============================================================================
 // Global Type Augmentations
@@ -532,4 +536,86 @@ declare global {
     Base64: IBase64;
     EIMZOEXT?: ICAPIWS;
   }
+}
+
+// ============================================================================
+// Resilience Types
+// ============================================================================
+
+/**
+ * Options for retry behavior
+ */
+export interface RetryOptions {
+  /** Maximum number of retry attempts (default: 3) */
+  maxRetries?: number;
+  /** Base delay in milliseconds between retries (default: 1000) */
+  baseDelay?: number;
+  /** Maximum delay in milliseconds between retries (default: 10000) */
+  maxDelay?: number;
+  /** Multiplier for exponential backoff (default: 2) */
+  backoffMultiplier?: number;
+  /** Custom function to determine if an error is retryable */
+  isRetryable?: (error: unknown) => boolean;
+  /** Callback fired before each retry attempt */
+  onRetry?: (attempt: number, error: unknown, delay: number) => void;
+}
+
+/**
+ * Options for timeout behavior
+ */
+export interface TimeoutOptions {
+  /** Timeout in milliseconds (default: 30000) */
+  timeout?: number;
+  /** Custom timeout error message */
+  timeoutMessage?: string;
+}
+
+/**
+ * Combined options for resilience wrapper
+ */
+export interface ResilienceOptions extends RetryOptions, TimeoutOptions {
+  /** Enable retry logic (default: true) */
+  enableRetry?: boolean;
+  /** Enable timeout logic (default: true) */
+  enableTimeout?: boolean;
+}
+
+/**
+ * Configuration options for ESignature service
+ */
+export interface ESignatureOptions {
+  /** Operation timeout in milliseconds (default: 30000) */
+  timeout?: number;
+  /** Enable retry logic for transient errors (default: true) */
+  enableRetry?: boolean;
+  /** Maximum number of retry attempts (default: 3) */
+  maxRetries?: number;
+  /** Callback fired before each retry attempt */
+  onRetry?: (operation: string, attempt: number, error: Error) => void;
+}
+
+/**
+ * Connection state for WebSocket operations
+ */
+export type ConnectionState =
+  | "disconnected"
+  | "connecting"
+  | "connected"
+  | "error"
+  | "retrying";
+
+/**
+ * Information about an ongoing retry operation
+ */
+export interface RetryInfo {
+  /** Name of the operation being retried */
+  operation: string;
+  /** Current attempt number (1-based) */
+  attempt: number;
+  /** Maximum number of attempts */
+  maxAttempts: number;
+  /** Milliseconds until next retry, or null if not waiting */
+  nextRetryIn: number | null;
+  /** Error message from last attempt, or null */
+  error: string | null;
 }

@@ -29,13 +29,20 @@ export { default } from "./plugin";
 
 // Composable
 export { useESignature } from "./composable";
-export type { UseESignatureReturn } from "./composable";
+export type { UseESignatureReturn, UseESignatureOptions } from "./composable";
 
 // Core ESignature class
 export { ESignature } from "./core/eimzo";
 
 // Low-level modules (for advanced usage)
-export { CAPIWS } from "./core/capiws";
+export {
+  CAPIWS,
+  callFunctionAsync,
+  versionAsync,
+  apidocAsync,
+  apikeyAsync,
+} from "./core/capiws";
+export type { WebSocketOperationOptions } from "./core/capiws";
 export { EIMZOClient } from "./core/client";
 
 // Crypto utilities
@@ -125,6 +132,14 @@ export type {
   // I18n types (re-export from types.ts for backwards compatibility)
   SupportedLocale as SupportedLocaleType,
   ErrorMessageKey as ErrorMessageKeyType,
+
+  // Resilience types
+  RetryOptions,
+  TimeoutOptions,
+  ResilienceOptions,
+  ESignatureOptions,
+  ConnectionState,
+  RetryInfo,
 } from "./types";
 
 // Error messages and version constants
@@ -139,9 +154,25 @@ export {
 } from "./utils/eimzo-detector";
 export type { EIMZOStatus } from "./utils/eimzo-detector";
 
-// Demo Components
-export { default as StatusIndicator } from "./components/demos/StatusIndicator.vue";
-export { default as InstallPrompt } from "./components/demos/InstallPrompt.vue";
-export { default as CertificateSelector } from "./components/demos/CertificateSelector.vue";
-export { default as MobileQRModal } from "./components/demos/MobileQRModal.vue";
-export { default as ESignatureWidget } from "./components/demos/ESignatureWidget.vue";
+// Resilience utilities
+export {
+  withTimeout,
+  withRetry,
+  withResilience,
+  classifyError,
+  isTransientError,
+  calculateBackoffDelay,
+  createCancellableDelay,
+  isTimeoutError,
+  isRetryExhaustedError,
+  TimeoutError,
+  RetryExhaustedError,
+  DEFAULT_RESILIENCE_OPTIONS,
+} from "./utils/resilience";
+export type {
+  RetryOptions as ResilienceRetryOptions,
+  TimeoutOptions as ResilienceTimeoutOptions,
+  ResilienceOptions as ResilienceFullOptions,
+  ErrorType,
+} from "./utils/resilience";
+

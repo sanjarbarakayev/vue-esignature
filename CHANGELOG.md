@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2025-02-04
+
+### Breaking Changes
+
+- **Removed demo components from npm package** - The following components are no longer exported:
+  - `StatusIndicator`
+  - `InstallPrompt`
+  - `CertificateSelector`
+  - `MobileQRModal`
+  - `ESignatureWidget`
+- **Removed CSS export** - `@sanjarbarakayev/vue-esignature/dist/style.css` is no longer available
+
+### Migration Guide
+
+If you were using the demo components, you have two options:
+
+1. **Copy components to your project**: The demo components are available in the [examples/components](https://github.com/sanjarbarakayev/vue-esignature/tree/main/examples/components) directory. Copy them into your project and update imports to use the package's core exports.
+
+2. **Build your own UI**: Use the core `useESignature()` composable and utility functions to build your own signing UI.
+
+### Package Size
+
+| Metric | Before (v1.3.0) | After (v2.0.0) | Reduction |
+|--------|-----------------|----------------|-----------|
+| Unpacked | 352 KB | 196 KB | 44% |
+| Package (gzip) | 82 KB | 52 KB | 37% |
+| CSS | 32 KB | 0 KB | 100% |
+
+### Why This Change?
+
+- **Smaller bundle**: Most users only need the core signing functionality
+- **Flexibility**: Build your own UI that matches your app's design system
+- **No opinions**: The library no longer dictates styling choices
+
 ## [1.3.0] - 2025-02-04
 
 ### Changed

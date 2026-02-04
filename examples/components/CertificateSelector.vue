@@ -1,10 +1,18 @@
+<!--
+  EXAMPLE COMPONENT - Not included in npm package
+
+  This is a reference implementation showing how to build UI with the core API.
+  Copy and customize for your project.
+
+  Source: https://github.com/sanjarbarakayev/vue-esignature/tree/main/examples/components
+-->
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import type {
   Certificate,
   PfxCertificate,
   FtjcCertificate,
-} from "../../types";
+} from "@sanjarbarakayev/vue-esignature";
 
 const props = defineProps<{
   certificates: Certificate[];

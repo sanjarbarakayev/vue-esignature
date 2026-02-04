@@ -1,10 +1,18 @@
+<!--
+  EXAMPLE COMPONENT - Not included in npm package
+
+  This is a reference implementation showing how to build UI with the core API.
+  Copy and customize for your project.
+
+  Source: https://github.com/sanjarbarakayev/vue-esignature/tree/main/examples/components
+-->
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
 import {
   detectEIMZO,
   getEIMZODownloadUrl,
   type EIMZOStatus,
-} from "../../utils/eimzo-detector";
+} from "@sanjarbarakayev/vue-esignature";
 
 const props = withDefaults(
   defineProps<{

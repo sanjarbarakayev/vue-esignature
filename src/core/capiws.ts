@@ -11,7 +11,9 @@ import type {
   CAPIWSErrorCallback,
   CAPIWSBaseResponse,
   CAPIWSVersionResponse,
+  TimeoutOptions,
 } from "../types";
+import { TimeoutError } from "../utils/resilience";
 
 // ============================================================================
 // Base64 Utilities
@@ -390,5 +392,205 @@ export const CAPIWS: ICAPIWS =
           };
         },
       };
+
+// ============================================================================
+// Default Timeout Configuration
+// ============================================================================
+
+const DEFAULT_WS_TIMEOUT = 30000;
+
+// ============================================================================
+// Promise-Based WebSocket Operations
+// ============================================================================
+
+/**
+ * Options for async WebSocket operations
+ */
+export interface WebSocketOperationOptions extends TimeoutOptions {
+  /** Custom WebSocket URL (defaults to CAPIWS.URL) */
+  url?: string;
+}
+
+/**
+ * Execute a WebSocket operation with proper error handling and timeout
+ *
+ * @param message - Message to send over WebSocket
+ * @param options - Operation options including timeout
+ * @returns Promise that resolves with the response data
+ *
+ * @internal
+ */
+async function executeWebSocketOperation<T extends CAPIWSBaseResponse>(
+  message: CAPIWSFunctionDef | { name: string; arguments?: unknown[] },
+  options: WebSocketOperationOptions = {}
+): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    if (typeof window === "undefined" || !window.WebSocket) {
+      reject(new Error("WebSocket not supported"));
+      return;
+    }
+
+    const timeout = options.timeout ?? DEFAULT_WS_TIMEOUT;
+    const url = options.url ?? CAPIWS.URL;
+    let socket: WebSocket | null = null;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+    let completed = false;
+
+    const cleanup = () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+      }
+      if (socket && socket.readyState !== WebSocket.CLOSED) {
+        socket.close();
+      }
+    };
+
+    const complete = (error?: unknown, data?: T) => {
+      if (completed) return;
+      completed = true;
+      cleanup();
+
+      if (error) {
+        reject(error);
+      } else if (data) {
+        resolve(data);
+      }
+    };
+
+    // Set up timeout
+    timeoutId = setTimeout(() => {
+      const timeoutMessage =
+        options.timeoutMessage ?? `WebSocket operation timed out after ${timeout}ms`;
+      complete(new TimeoutError(timeoutMessage, timeout));
+    }, timeout);
+
+    // Create WebSocket connection
+    try {
+      socket = new WebSocket(url);
+    } catch (e) {
+      complete(e);
+      return;
+    }
+
+    // Handle connection error
+    socket.onerror = (event: Event): void => {
+      complete(new Error(`WebSocket connection error: ${event.type}`));
+    };
+
+    // Handle connection close
+    socket.onclose = (event: CloseEvent): void => {
+      if (!completed && event.code !== 1000) {
+        complete(new Error(`WebSocket closed unexpectedly: code ${event.code}`));
+      }
+    };
+
+    // Handle incoming message
+    socket.onmessage = (event: MessageEvent): void => {
+      try {
+        const data = JSON.parse(event.data) as T;
+        complete(undefined, data);
+      } catch (e) {
+        complete(new Error(`Failed to parse WebSocket response: ${e}`));
+      }
+    };
+
+    // Send message when connected
+    socket.onopen = (): void => {
+      try {
+        socket!.send(JSON.stringify(message));
+      } catch (e) {
+        complete(new Error(`Failed to send WebSocket message: ${e}`));
+      }
+    };
+  });
+}
+
+/**
+ * Call a CAPIWS function asynchronously with Promise-based API
+ *
+ * @param funcDef - Function definition to call
+ * @param options - Operation options including timeout
+ * @returns Promise that resolves with the response data
+ *
+ * @example
+ * ```typescript
+ * const result = await callFunctionAsync({
+ *   plugin: 'pfx',
+ *   name: 'load_key',
+ *   arguments: [certPath, password]
+ * }, { timeout: 10000 })
+ * ```
+ */
+export async function callFunctionAsync<T extends CAPIWSBaseResponse>(
+  funcDef: CAPIWSFunctionDef,
+  options: WebSocketOperationOptions = {}
+): Promise<T> {
+  const response = await executeWebSocketOperation<T>(funcDef, options);
+
+  if (!response.success && response.reason) {
+    throw new Error(response.reason);
+  }
+
+  return response;
+}
+
+/**
+ * Get E-IMZO version asynchronously
+ *
+ * @param options - Operation options including timeout
+ * @returns Promise that resolves with version information
+ *
+ * @example
+ * ```typescript
+ * const { major, minor } = await versionAsync({ timeout: 5000 })
+ * console.log(`E-IMZO version: ${major}.${minor}`)
+ * ```
+ */
+export async function versionAsync(
+  options: WebSocketOperationOptions = {}
+): Promise<CAPIWSVersionResponse> {
+  return executeWebSocketOperation<CAPIWSVersionResponse>(
+    { name: "version" },
+    options
+  );
+}
+
+/**
+ * Get API documentation asynchronously
+ *
+ * @param options - Operation options including timeout
+ * @returns Promise that resolves with API documentation
+ */
+export async function apidocAsync(
+  options: WebSocketOperationOptions = {}
+): Promise<CAPIWSBaseResponse> {
+  return executeWebSocketOperation<CAPIWSBaseResponse>(
+    { name: "apidoc" },
+    options
+  );
+}
+
+/**
+ * Register API key asynchronously
+ *
+ * @param domainAndKey - Array with [domain, key] pair
+ * @param options - Operation options including timeout
+ * @returns Promise that resolves when key is registered
+ *
+ * @example
+ * ```typescript
+ * await apikeyAsync(['localhost', 'your-api-key'], { timeout: 5000 })
+ * ```
+ */
+export async function apikeyAsync(
+  domainAndKey: string[],
+  options: WebSocketOperationOptions = {}
+): Promise<CAPIWSBaseResponse> {
+  return executeWebSocketOperation<CAPIWSBaseResponse>(
+    { name: "apikey", arguments: domainAndKey },
+    options
+  );
+}
 
 export type { IBase64, ICAPIWS };
